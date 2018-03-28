@@ -16,8 +16,7 @@
 <meta property="og:site_name" content="Durian的博客">
 <meta property="og:description" content="hmmm… 来杭州实习将近三个月了… 月底返校， 闲聊之际， 使用Hexo-theme-yilia（膜拜鹅厂大佬Litten…）搭建了个人静态博客。 0x01、环境准备 Git Node.js  123456$ git --versiongit version 2.11.1.windows.1$ npm -v5.6.0$ node -vv8.10.0 如果您电脑已经安装以上环境，接下来只需使用n">
 <meta property="og:image" content="http://yoursite.com/2018/03/28/hexo/西湖.jpeg">
-<meta property="og:image" content="http://yoursite.com/2018/03/28/hexo/deploy.png">
-<meta property="og:updated_time" content="2018-03-28T15:34:03.109Z">
+<meta property="og:updated_time" content="2018-03-28T15:40:18.735Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo-github搭建个人博客">
 <meta name="twitter:description" content="hmmm… 来杭州实习将近三个月了… 月底返校， 闲聊之际， 使用Hexo-theme-yilia（膜拜鹅厂大佬Litten…）搭建了个人静态博客。 0x01、环境准备 Git Node.js  123456$ git --versiongit version 2.11.1.windows.1$ npm -v5.6.0$ node -vv8.10.0 如果您电脑已经安装以上环境，接下来只需使用n">
@@ -179,20 +178,20 @@
 <p>月底返校，</p>
 <p>闲聊之际，</p>
 <p>使用Hexo-theme-yilia（膜拜鹅厂大佬Litten…）搭建了个人静态博客。</p>
-<h3 id="0x01、环境准备"><a href="#0x01、环境准备" class="headerlink" title="0x01、环境准备"></a>0x01、环境准备</h3><ul>
+<h2 id="0x01、环境准备"><a href="#0x01、环境准备" class="headerlink" title="0x01、环境准备"></a>0x01、环境准备</h2><ul>
 <li><a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a></li>
 <li><a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a></li>
 </ul>
 <figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git --version</span><br><span class="line">git version <span class="number">2.11</span><span class="number">.1</span>.windows<span class="number">.1</span></span><br><span class="line">$ npm -v</span><br><span class="line"><span class="number">5.6</span><span class="number">.0</span></span><br><span class="line">$ node -v</span><br><span class="line">v8<span class="number">.10</span><span class="number">.0</span></span><br></pre></td></tr></table></figure>
 <p>如果您电脑已经安装以上环境，接下来只需使用npm即可完成Hexo的安装：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装hexo</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm install -g hexo-cli </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 检查hexo版本,如显示版本信息，则安装成功</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hexo -v</span></span><br></pre></td></tr></table></figure>
-<h3 id="0x02、Hexo建站"><a href="#0x02、Hexo建站" class="headerlink" title="0x02、Hexo建站"></a>0x02、Hexo建站</h3><p>安装Hexo完成后，初始化Hexo:</p>
+<h2 id="0x02、Hexo建站"><a href="#0x02、Hexo建站" class="headerlink" title="0x02、Hexo建站"></a>0x02、Hexo建站</h2><p>安装Hexo完成后，初始化Hexo:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 进入到安装目录</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> &lt;folder&gt;</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 初始化Hexo，出现<span class="string">"Start blogging with Hexo"</span>则初始化完成</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> hexo init </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> npm安装所需组件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> npm install</span></span><br></pre></td></tr></table></figure>
 <p>启动服务器，访问<a href="http://localhost:4000/：" target="_blank" rel="noopener">http://localhost:4000/：</a></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br><span class="line">INFO  <span class="keyword">Start</span> processing</span><br><span class="line">INFO  Hexo <span class="keyword">is</span> running <span class="keyword">at</span> <span class="keyword">http</span>://localhost:<span class="number">4000</span>/. Press Ctrl+C <span class="keyword">to</span> stop.</span><br></pre></td></tr></table></figure>
 <p>​    Tips：如果一直无法跳转，可能端口被占用，ctrl + c 停止服务更改端口：<code>hexo server -p port_num</code></p>
 <p>至此Hexo本地搭建完成.</p>
-<h3 id="0x03、将Hexo与Github连接起来"><a href="#0x03、将Hexo与Github连接起来" class="headerlink" title="0x03、将Hexo与Github连接起来"></a>0x03、将Hexo与Github连接起来</h3><blockquote>
+<h2 id="0x03、将Hexo与Github连接起来"><a href="#0x03、将Hexo与Github连接起来" class="headerlink" title="0x03、将Hexo与Github连接起来"></a>0x03、将Hexo与Github连接起来</h2><blockquote>
 <p>本地配置git：</p>
 </blockquote>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置git用户名和邮箱</span></span><br><span class="line">$ git<span class="built_in"> config </span>--global user.name <span class="string">"your_github_name"</span></span><br><span class="line">$ git<span class="built_in"> config </span>--global user.email <span class="string">"your_github_email"</span></span><br><span class="line">$ cd ~/.ssh</span><br><span class="line"><span class="comment"># 生成密钥</span></span><br><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your_github_email"</span></span><br><span class="line"><span class="comment"># 将密钥添加到ssh-agent</span></span><br><span class="line">$ eval<span class="string">"(ssh-agent -s)"</span></span><br><span class="line"><span class="comment"># 将生成的SSH key添加到ssh-agent</span></span><br><span class="line">$ ssh-add~/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
@@ -208,7 +207,6 @@
 </blockquote>
 <p>配置hexo根目录下的_config.yml文件</p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">deploy:</span></span><br><span class="line"><span class="symbol">	type:</span> git</span><br><span class="line"><span class="symbol">	repository:</span> <span class="string">"Github的Project路径，Project name 必须为 github_name.github.io"</span></span><br><span class="line"><span class="symbol">	branch:</span> 分支</span><br></pre></td></tr></table></figure>
-<p><img src="/2018/03/28/hexo/deploy.png" alt=""></p>
 <h3 id="0x04、新建博客"><a href="#0x04、新建博客" class="headerlink" title="0x04、新建博客"></a>0x04、新建博客</h3><p>新建博客–&gt;编辑md文件–&gt;博客生成、部署</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hexo new <span class="string">"hexo"</span></span></span><br><span class="line">INFO  Created: E:\Hexo\source\_posts\hexo.md</span><br><span class="line"><span class="meta">$</span><span class="bash"> hexo d -g</span></span><br></pre></td></tr></table></figure>
 <p>到此hexo静态博客搭建完成，访问<code>githubname.github.io</code>博客链接。</p>
@@ -334,8 +332,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2018/03/28/photo/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">photo</div>
+    <a href="/2018/03/27/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hello-朋友，你好！</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -453,11 +451,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">前端</a>
+                <a href="javascript:void(0)" class="js-tag color3">生活</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -465,7 +459,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">photo</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">前端</a>
               </li>
             
             <div class="clearfix"></div>
