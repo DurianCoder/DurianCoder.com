@@ -3,7 +3,7 @@
 menu:
   主页: /
   摄影: /tags/摄影/
-  Durian: photo
+  #Durian: photo
 
 # SubNav
 subnav:
