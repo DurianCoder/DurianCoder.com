@@ -9,3 +9,5 @@ tags:
 # 朋友，你好。
 
 ![](/moutain.jpg)
+
+<!--more-->

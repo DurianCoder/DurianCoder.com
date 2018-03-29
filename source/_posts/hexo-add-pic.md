@@ -6,9 +6,13 @@ tags:
 ---
 
 - [x] 使用hexo-theme-yilia主题<br>
+
 - [x] 配置头像、打赏码<br>
+
 - [x] 博客文章添加图片<br>
   ![image](/leaf.jpg)
+
+  <!--more-->
 ## 0x01、添加yilia主题
 从github上签出yilia，将theme下的yilia复制到hexo/theme下：
 ```
