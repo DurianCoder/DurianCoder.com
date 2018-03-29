@@ -9,6 +9,8 @@ tags:
 hexo博客文档树：
 ![image](/tree.png)
 
+<!--more-->
+
 下面介绍一下，如何将hexo博客上传到github，便于在更换电脑时推送博客。
 ## 0x01、在仓库新建分支``hexo``
 > 将hexo分支设置为默认分支
