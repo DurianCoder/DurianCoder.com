@@ -1,5 +1,5 @@
 ---
-title: hexo-yilia主题搭建
+title: hexo-yilia-主题搭建
 date: 2018-03-29 20:45:36
 tags:
 	- hexo
@@ -58,9 +58,18 @@ hexo n "xxx"
 ![你想输入的替代文字](xxxx/图片名.jpg)
 ```
 
-部署项目：
+
+
+## 0x04、blog截断
+
+在主题配置文件中设置：
+
 ```
-hexo s -g
+# yilia/_config.yml文件
+excerpt_link: more
+
+# 在博客md文件中，设置截断位置
+<!--more-->
 ```
 
 

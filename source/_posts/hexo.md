@@ -1,5 +1,5 @@
 ---
-title: hexo-github搭建个人博客
+title: hexo-github-个人博客搭建
 date: 2018-03-28 22:31:30
 tags:
 	- hexo

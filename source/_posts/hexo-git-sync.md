@@ -1,5 +1,5 @@
 ---
-title: hexo-git-sync
+title: 多台电脑更新github pages博客
 date: 2018-03-29 22:29:27
 tags:
 	- hexo
@@ -46,11 +46,17 @@ $ git push
 
 ## 0x05、在其他电脑上pull配置博客
 
-> 将新电脑的生成的ssh key添加到GitHub账户上
-
+> 将新电脑的生成的ssh key添加到GitHub账户上，参考[hexo搭建](https://duriancoder.github.io/2018/03/28/hexo/)
+>
 > 克隆username.github.io的xxx分支
-
+>
 > 切换到username.github.io目录，执行npm install
+
+```
+$ git clone git@github.com:DurianCoder/DurianCoder.github.io.git
+$ cd username.github.io
+$ npm install
+```
 
 
 
