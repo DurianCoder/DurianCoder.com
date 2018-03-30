@@ -2,8 +2,8 @@
 
 menu:
   主页: /
-  摄影: /tags/摄影/
-  #Durian: photo
+  随笔: /tags/随笔/
+  相册：/photos/
 
 # SubNav
 subnav:

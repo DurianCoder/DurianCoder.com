@@ -7,7 +7,7 @@ tags:
 
 当在本地操作github远程仓库时经常出现权限不足、无法访问问题，可能是本地密钥失效。
 
-![/error.png]()
+![](/error.png)
 
 <!--more-->
 
@@ -22,3 +22,4 @@ $ ssh-keygen -t rsa -C "your_github_email"
 ```
 $ ssh -T git@github.com
 ```
+
