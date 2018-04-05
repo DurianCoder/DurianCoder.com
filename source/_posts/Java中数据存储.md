@@ -1,5 +1,5 @@
 ---
-title: 'java-memory-position '
+title: Java中的数据存储
 date: 2018-04-05 12:41:10
 tags:
 	- Jase
