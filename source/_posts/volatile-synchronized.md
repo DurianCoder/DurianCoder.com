@@ -1,5 +1,5 @@
 ---
-title: volatile-synchronized
+title: volatile和synchronized介绍
 date: 2018-04-05 11:19:46
 tags:
 	- 多线程并发
@@ -7,7 +7,7 @@ tags:
 
 ## 0x01、volatile和synchronized特点
 
-#### 首先需要理解线程安全的两个方面：**执行控制**和**内存可见**。
+### 首先需要理解线程安全的两个方面：**执行控制**和**内存可见**。
 
 > **执行控制**：控制代码执行（顺序）及是否可以并发执行。
 >

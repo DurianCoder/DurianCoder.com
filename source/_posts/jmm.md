@@ -1,5 +1,5 @@
 ---
-title: jmm
+title: 深入理解Java内存模型JMM
 date: 2018-04-05 11:16:23
 tags:
 	- JMM
