@@ -69,7 +69,7 @@ $ npm install
 $ git pull
 
 # 新建博客、写博客
-$ git new post "blog-name"
+$ hexo new post "blog-name"
 
 #写完了将本地博客推送到github
 $ git add .
@@ -77,7 +77,7 @@ $ git commit -m "info"
 $ git push
 
 # 部署博客
-$ git d -g
+$ hexo d -g
 ```
 
 ### 参考文档：
