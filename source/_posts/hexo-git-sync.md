@@ -80,6 +80,14 @@ $ git push
 $ hexo d -g
 ```
 
+**Tips**：在文中添加内容截断
+
+```
+<!--more-->
+```
+
+
+
 ### 参考文档：
 
 ​	[利用Hexo在多台电脑上提交和更新github pages博客](https://www.jianshu.com/p/0b1fccce74e0)
