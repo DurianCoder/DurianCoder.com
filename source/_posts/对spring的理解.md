@@ -1,5 +1,5 @@
 ---
-title: 对sprint的理解
+title: 对spring的理解
 date: 2018-04-07 22:10:44
 tags:
 	- ssm
