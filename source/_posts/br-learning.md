@@ -1,7 +1,9 @@
 ---
-title: br-learning
+title: BR-使用技巧
 date: 2018-05-21 10:42:49
 tags:
+	- [Br]
+	- [摄影]
 ---
 
 # BR使用技巧：
