@@ -16,7 +16,7 @@ ActiveMQ是一个MOM，是一个实现了JMS规范的系统间远程通信的消
 
 ##### 2、什么是MOM?
 
-MOM是面向消息中间件（Message-oriented middleware），是用于以分布式应用或系统中的异步、松耦合、可靠、可扩展和安全通信的一类软件。MOM的总体思想是它作为消息发送器和消息接受器之间的消息中介，这种中介提供了一个全新的水平松耦合。![](C:/Users/Durian/Desktop/StudyNote/Image/activemq/897247-20170209130542229-26011702.png)
+MOM是面向消息中间件（Message-oriented middleware），是用于以分布式应用或系统中的异步、松耦合、可靠、可扩展和安全通信的一类软件。MOM的总体思想是它作为消息发送器和消息接受器之间的消息中介，这种中介提供了一个全新的水平松耦合。![](Image/activemq/897247-20170209130542229-26011702.png)
 
 ##### 3、ActiveMQ中一些基本概念
 
@@ -35,7 +35,7 @@ P2P消息域使用queue作为Destination，消息可以被同步和一部的发�
 
 Consumer可以使用MessageConsumer.receive()同步接收消息；也可以使用Message.SetMessageListener()注册一个监听器来实现一部接收，在后面的Coding环节中会有代码演示。
 
-多个Consumer可以注册到同一个Queue，但一个消息只能被一个Consumer所接收，然后由该Consumer来确认消息。并且这种情况下，Provider对所有注册的Consumer以轮询的方式发送消息。![](C:/Users/Durian/Desktop/StudyNote/Image/activemq/p2p.png)
+多个Consumer可以注册到同一个Queue，但一个消息只能被一个Consumer所接收，然后由该Consumer来确认消息。并且这种情况下，Provider对所有注册的Consumer以轮询的方式发送消息。![](Image/activemq/p2p.png)
 
 2)、Pub/Sub
 
@@ -43,7 +43,7 @@ Consumer可以使用MessageConsumer.receive()同步接收消息；也可以使�
 
 除非显示指定，否者topic不会为订阅者保留消息。当然可以通过持久化订阅来实现消息的保存。这种情况，当订阅者与发布者断开时，发布者会为他存储消息。当持久化订阅者重新连接时，将会收到所有的断连期间未收到的消息。
 
-![](C:/Users/Durian/Desktop/StudyNote/Image/activemq/topic.png)
+![](Image/activemq/topic.png)
 
 ##### 5、使用ActiveMQ应用大致步骤
 
@@ -142,7 +142,7 @@ ActiveMQ 5.3 版本起的默认存储方式。KahaDB存储是一个基于文件�
 
 ## 0x03、ActiveMQ接收和发送消息
 
-![](C:/Users/Durian/Desktop/StudyNote/Image/activemq/Send_Recv.jpg)
+![](Image/activemq/Send_Recv.jpg)
 
 ##### 0、添加Maven依赖
 
