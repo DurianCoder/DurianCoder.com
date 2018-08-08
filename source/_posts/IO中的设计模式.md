@@ -6,7 +6,7 @@ tags:
 	- 设计模式
 ---
 
-涉及到的类主要有FileInputStream ，InputStreamReader ，BufferedReader 。涉及到的设计模式主要有适配器模式以及装饰者模式。下面分别展开介绍。
+涉及到的类主要有FileInputStream ，InputStreamReader ，BufferedReader 。涉及到的设计模式主要有适配器模式以及装饰者模式。下面分别展开介绍。<!--more-->
 
 ### 一、装饰者模式以及适配器模式的介绍
 
@@ -15,7 +15,7 @@ tags:
 
 ![这里写图片描述](https://img-blog.csdn.net/20170305220853799?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvTF9rYW5nbGlu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
-<!--more-->
+
 
 适配器模式：将一个类的接口，转换成客户期望的另一个接口。适配器让原本接口不兼容的类可以合作无间。 
 适配器模式有三种：类的适配器模式、对象的适配器模式、接口的适配器模式。 

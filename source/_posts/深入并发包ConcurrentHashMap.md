@@ -8,7 +8,7 @@ tags:
 
 ## 前言
 
-以前写过介绍[HashMap](http://pettyandydog.com/2016/08/28/HashMap_infinite_loop/#more)的文章，文中提到过HashMap在put的时候，插入的元素超过了容量（由负载因子决定）的范围就会触发扩容操作，就是rehash，这个会重新将原数组的内容重新hash到新的扩容数组中，在多线程的环境下，存在同时其他的元素也在进行put操作，如果hash值相同，可能出现同时在同一数组下用链表表示，造成闭环，导致在get时会出现死循环，所以HashMap是线程不安全的。
+以前写过介绍[HashMap](http://pettyandydog.com/2016/08/28/HashMap_infinite_loop/#more)的文章，文中提到过HashMap在put的时候，插入的元素超过了容量（由负载因子决定）的范围就会触发扩容操作，<!--more-->就是rehash，这个会重新将原数组的内容重新hash到新的扩容数组中，在多线程的环境下，存在同时其他的元素也在进行put操作，如果hash值相同，可能出现同时在同一数组下用链表表示，造成闭环，导致在get时会出现死循环，所以HashMap是线程不安全的。
 
 我们来了解另一个键值存储集合HashTable，它是线程安全的，它在所有涉及到多线程操作的都加上了synchronized关键字来锁住整个table，这就意味着所有的线程都在竞争一把锁，在多线程的环境下，它是安全的，但是无疑是效率低下的。
 
@@ -22,7 +22,7 @@ tags:
 
 [![1](http://incdn1.b0.upaiyun.com/2017/07/28c8edde3d61a0411511d3b1866f0636.png)](http://www.importnew.com/?attachment_id=26050)
 
-<!--more-->
+
 
 Segment数组的意义就是将一个大的table分割成多个小的table来进行加锁，也就是上面的提到的锁分离技术，而每一个Segment元素存储的是HashEntry数组+链表，这个和HashMap的数据存储结构一样
 

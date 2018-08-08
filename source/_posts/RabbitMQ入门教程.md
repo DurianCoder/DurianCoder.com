@@ -14,6 +14,8 @@ ActiveMQ、RabbitMQ、Kafka、RocketMQ
 
 ![](/1226944-20180625122436309-378812433.png)
 
+<!-- more -->
+
 ##### 2、RabbitMQ是什么？
 
 ​	RabbitMQ is a message broker: it accepts and forwards messages. 
