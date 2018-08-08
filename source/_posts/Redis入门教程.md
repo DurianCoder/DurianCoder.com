@@ -7,7 +7,9 @@ tags:
 
 ## **0x01、NoSQL介绍**
 
-　　要学习Redis首先要了解什么是NoSQL，NoSQL有什么特点等
+​	[Redis博客链接](https://www.cnblogs.com/duriancoder/articles/9383957.html)
+
+　要学习Redis首先要了解什么是NoSQL，NoSQL有什么特点等 <!-- more-->
 
 #####      **1、什么是NoSQL？**
 
@@ -420,38 +422,394 @@ systemctl stop firewalld.service
 
 创建JedisPool线程安全单例
 
-![img](https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif) View Code
+```
+package com.durian.jedis.util;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+
+public class JedisPoolUtil {
+    // 私有构造方法
+    private JedisPoolUtil() {}
+
+    private volatile static JedisPool jedisPool = null;
+
+    public static JedisPool getJedisPool(String host, int port) {
+
+        if (null == jedisPool){
+            // 锁住对象
+            synchronized (JedisPoolUtil.class) {
+                if (null == jedisPool) {
+                    JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+                    // 设置最大连接数
+                    jedisPoolConfig.setMaxTotal(1000);
+                    // 设置最大空闲数
+                    jedisPoolConfig.setMaxIdle(66);
+                    // 连接超时时间
+                    jedisPoolConfig.setMaxWaitMillis(100 * 1000);
+                    // 连接测试
+                    jedisPoolConfig.setTestOnBorrow(true);
+                    jedisPool = new JedisPool(jedisPoolConfig, host , port);
+                }
+            }
+        }
+        return jedisPool;
+    }
+
+    public static Jedis getJedis() {
+        JedisPool jedisPool = getJedisPool("192.168.31.164", 6379);
+        return jedisPool.getResource();
+    }
+
+    // 释放连接
+    public static void release(Jedis jedis) {
+        if (null == jedis) {
+            jedis.close();
+        }
+    }
+
+
+}
+```
 
 基于Jedis实现分布式锁
 
-![img](https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif) View Code
+```
+package com.durian.jedis.api;
+
+import com.durian.jedis.util.JedisPoolUtil;
+import redis.clients.jedis.Jedis;
+
+import java.util.Collections;
+
+/**
+ * 为了确保分布式所可用，必须保证一下四点：
+ *      1、互斥性。在任意时刻只有一个客户端能持有锁
+ *      2、不会发生死锁。加上过期时间
+ *      3、具有容错性。只要大部分redis节点运行正常即可。
+ *      4、解铃还须系铃人。加锁解锁必须为同一个客户端。
+ */
+public class DistributeLock {
+
+    private static final String LOCK_SUCCESS = "OK";
+    private static final String SET_IF_NOT_EXIT = "NX";
+    private static final String SET_WITH_EXPIRE_TIME = "PX";
+    private static final Long RELEASE_SUCCESS = 1L;
+
+    /**
+     *
+     * @param jedis  jedis客户端
+     * @param lockKey 要加锁的key
+     * @param requestId  key对应客户端id，可以使用UUID
+     * @param expireTime 过期时间
+     * @return
+     */
+    public static boolean getDistributedLock(Jedis jedis, String lockKey, String requestId, int expireTime){
+
+        /**
+         * 当key不存在时加锁，并设置过期时间，避免死锁
+         */
+        String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIT , SET_WITH_EXPIRE_TIME, expireTime);
+        if (LOCK_SUCCESS.equals(result)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *  使用lua脚本，保证操作原子性，java在执行lua代码时，lua代码将被当成一个命令去执行，并且直到eval命令执行完成，redis才会执行其他命令。
+     * @param jedis
+     * @param lockKey
+     * @param requestId
+     * @return
+     */
+    public static boolean releaseDistributedLock(Jedis jedis, String lockKey, String requestId){
+        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+        Object result = jedis.eval(script, Collections.singletonList(lockKey), Collections.singletonList(requestId));
+        if (RELEASE_SUCCESS.equals(result)) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public static void main(String[] args) {
+        Jedis jedis = JedisPoolUtil.getJedis();
+        boolean name = getDistributedLock(jedis, "name", "66", 10);
+        System.out.println("给name加锁：" + name);
+        System.out.println(jedis.get("name"));
+        jedis.set("name", "liuliu");
+        System.out.println(jedis.get("name"));
+    }
+}
+```
 
 Jedis事务、乐观锁
 
-![img](https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif) View Code
+```
+package com.durian.jedis.api;
+
+import com.durian.jedis.util.JedisPoolUtil;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
+
+import javax.sound.midi.Soundbank;
+import java.util.List;
+
+public class TestLock {
+    public static void main(String[] args) throws InterruptedException {
+        Jedis jedis = JedisPoolUtil.getJedis();
+        int price = 10;
+
+        System.out.println(jedis.keys("*"));
+
+
+        String balance = jedis.get("balance");
+
+        /**
+         * 当你对一个key 进行watch之后，如果key改变了，那么后面的事务不会执行。
+         */
+        jedis.watch("balance");
+        int b = new Integer(balance);
+        if (b < 10) {
+            System.out.println("余额不足.");
+            jedis.unwatch();
+            return;
+        }
+
+        System.out.println("before:" + jedis.mget("balance", "debt"));
+        Thread.sleep(6 * 1000);
+        System.out.println("after:" + jedis.mget("balance", "debt"));
+
+        Transaction transaction = jedis.multi();
+        transaction.decrBy("balance" , price);
+        transaction.incrBy("debt" , price);
+//        System.out.println("please change balance...");
+//        Thread.sleep(6 * 1000);
+        List<Object> exec = transaction.exec();
+        System.out.println(exec);
+
+//        System.out.println(jedis.mget("balance", "debt"));
+    }
+}
+```
 
 Jedis使用key
 
-![img](https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif) View Code
+```
+package com.durian.jedis.api;
+
+import com.durian.jedis.util.JedisPoolUtil;
+import oracle.jrockit.jfr.events.JavaEventDescriptor;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+
+import java.util.Set;
+
+/**
+ * 在windows上连接WMware 虚拟机上的redis时，需要配置好一下两点：
+ *      1、关闭防火墙： systemctl stop firewalld.service
+ *      2、将redis.conf 中bind:127.0.0.1注释
+ *      3、将reids.conf 中protected-mod 配置为 no, CONFIG set protected-mod no
+ */
+public class TestKeyApi {
+    public static void main(String[] args) throws InterruptedException {
+        JedisPool jedisPool = JedisPoolUtil.getJedisPool("192.168.31.164" , 6379);
+        Jedis jedis = jedisPool.getResource();
+
+
+        Set<String> keys = jedis.keys("*");
+        System.out.println(keys);
+
+        // 清除数据库
+        String s = jedis.flushDB();
+        System.out.println("flushDB:" + s);
+
+        // 设置key
+        jedis.set("k1", "v1");
+        System.out.println(jedis.get("k1"));
+
+        // 设置超时
+        jedis.setex("k1", 20 , jedis.get("k1"));
+        Thread.sleep(200);
+        Long k1 = jedis.ttl("k1");
+        System.out.println("k1还有" + k1 + "秒过期.");
+
+        // 查看key是否存在、查看key类型
+        System.out.println("k1是否存在：" + jedis.exists("k1"));
+        System.out.println("k1的数据类型为：" + jedis.type("k1"));
+
+    }
+}
+```
 
 Jedis使用String
 
-![img](https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif) View Code
+```
+package com.durian.jedis.api;
+
+import com.durian.jedis.util.JedisPoolUtil;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.exceptions.JedisException;
+import sun.applet.Main;
+
+public class TestStringApi {
+
+    public static void main(String[] args) {
+        Jedis jedis = JedisPoolUtil.getJedis();
+
+        // 选择数据库
+        String select = jedis.select(1);
+        System.out.println("使用1号数据库?:" + select );
+
+        // set、get、strlen、append、getrange、setrange、incr、decr、mset、mget
+        jedis.set("k1" , "v1");
+        String k1 = jedis.get("k1");
+        System.out.println("k1的值为：" + k1);
+
+        System.out.println("k1的长度为:" + jedis.strlen("k1"));
+        jedis.append("k1", "1234");
+        String k1range = jedis.getrange("k1", 0, -1);
+        System.out.println("getrange k1 0 -1 :" + k1range);
+
+        Long k11 = jedis.setrange("k1", 0, "66520");
+        System.out.println("setrange k1 0 66520:" + k11);
+
+        String age = jedis.set("age", "22");
+        System.out.println("before incr age:" + jedis.get("age"));
+        Long age1 = jedis.incr("age");
+        System.out.println("after incr age:" + age1);
+    }
+
+}
+```
 
 Jedis使用List
 
-![img](https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif) View Code
+```
+package com.durian.jedis.api;
+
+import com.durian.jedis.util.JedisPoolUtil;
+import redis.clients.jedis.BinaryClient;
+import redis.clients.jedis.Jedis;
+
+public class TestListApi {
+    public static void main(String[] args) {
+        Jedis jedis = JedisPoolUtil.getJedis();
+
+        jedis.flushDB();
+
+        // lpush、rpush、lrange、lpop、rpop、llen、lindex、lrem、ltrim、lset key index value 、linsert key after/before v1 v2
+        jedis.lpush("list01", "v1" , "v2", "v3", "v4");
+        jedis.rpush("list01", "v5" , "v6");
+        System.out.println("list01 :" + jedis.lrange("list01" , 0 , -1));
+        System.out.println("rpush list01 (v6) :" + jedis.rpop("list01"));
+        System.out.println("lpush list01 (v1):" + jedis.lpop("list01"));
+        System.out.println("llen list01 (6): " + jedis.llen("list01"));
+
+        jedis.lrem("list01", 1, "1");
+        System.out.println("删除第一个元素后list01 :" + jedis.lrange("list01", 0 , -1));
+
+        jedis.linsert("list01", BinaryClient.LIST_POSITION.AFTER, "v5", "66");
+        String list01 = jedis.ltrim("list01", 0, -1);
+        System.out.println("update后的list01 ： " + jedis.lrange("list01" , 0 , -1));
+        System.out.println("i want " + jedis.lindex("list01" , 4));
+
+
+    }
+}
+```
 
 Jedis使用Hash
 
-![img](https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif) View Code
+```
+package com.durian.jedis.api;
+
+import com.durian.jedis.util.JedisPoolUtil;
+import redis.clients.jedis.Jedis;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestHashApi {
+    public static void main(String[] args) {
+        Jedis jedis = JedisPoolUtil.getJedis();
+
+        // hash  key  k:v
+        // hget,hset,hlen,hkeys,hvals,hmget,hmset,hexits,hincr
+
+        jedis.hset("hs01", "k1", "v1");
+        Map map = new HashMap();
+        map.put("k1", "v1");
+        map.put("k2", "v2");
+
+        jedis.hmset("hs02", map);
+        System.out.println("hs01 :" + jedis.hget("hs01" , "k1"));
+        System.out.println("hs02 :" + jedis.hget("hs02" , "k2"));
+        System.out.println("hs02 length :" + jedis.hlen("hs02"));
+        System.out.println("hs02是否存在k1 : " + jedis.hexists("hs02" , "k1"));
+
+    }
+}
+```
 
 Jedis使用Set
 
-![img](https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif) View Code
+```
+package com.durian.jedis.api;
+
+import com.durian.jedis.util.JedisPoolUtil;
+import redis.clients.jedis.Jedis;
+
+public class TestSetApi {
+    public static void main(String[] args) {
+        Jedis jedis = JedisPoolUtil.getJedis();
+
+        // sadd,spop,srem,scard,srandomkey,smenber,srandmember,sdiff,sinter,sunion
+        jedis.sadd("s01", "v1", "v2", "v3", "v1");
+        Long s01 = jedis.scard("s01");
+        System.out.println(s01);
+        jedis.sadd("s01", "66");
+        System.out.println("s01 : " + jedis.smembers("s01"));
+        System.out.println("随机取一个和三个：");
+        System.out.println(jedis.srandmember("s01"));
+        System.out.println(jedis.srandmember("s01" , 3));
+
+    }
+}
+```
 
 Jedis使用Zset
 
-![img](https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif) View Code
+```
+package com.durian.jedis.api;
+
+import com.durian.jedis.util.JedisPoolUtil;
+import redis.clients.jedis.Jedis;
+
+import java.util.Set;
+
+public class TestZSetApi {
+    public static void main(String[] args) {
+        Jedis jedis = JedisPoolUtil.getJedis();
+
+        // zadd,zrem,zrange,zcard,zcount,zrangbyscore
+        jedis.zadd("z01", 66, "ll");
+        jedis.zadd("z01", 77, "qq");
+        jedis.zadd("z01", 88, "&&");
+        System.out.println(jedis.zrange("z01" , 0 , -1));
+        jedis.zrem("z01" , "&&");
+        System.out.println(jedis.zrange("z01" , 0 , -1));
+        jedis.zadd("z01" , 52 , "jiangying");
+        Set<String> z01 = jedis.zrangeByScore("z01", 1, 77);
+        System.out.println(z01);
+
+
+    }
+}
+```
+
+
 
  

@@ -701,6 +701,6 @@ public class SpringReceiver {
 
 ##### 参考链接：
 
-[ActiveMQ入门教程]: https://www.jianshu.com/p/8caa6d66b10d
-[成小胖学习ActiveMQ·基础篇]: http://www.cnblogs.com/cyfonly/p/6380860.html
+[ActiveMQ入门教](https://www.jianshu.com/p/8caa6d66b10d)
 
+[成小胖学习ActiveMQ·基础篇](http://www.cnblogs.com/cyfonly/p/6380860.html )

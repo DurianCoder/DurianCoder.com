@@ -11,7 +11,7 @@ tags:
 
 ​	从官网上下载稳定版本，
 
-[zookeeper 下载]: https://archive.apache.org/dist/zookeeper/
+[zookeeper下载](https://archive.apache.org/dist/zookeeper/)
 
 2）、目录结构
 
@@ -361,7 +361,7 @@ chkconfig iptables on/off
 
 ##### 3、zookeeper的Java Api调用
 
-[java调用zk的Api]: https://www.cnblogs.com/leesf456/p/6028416.html
+[java调用zk的Api](https://www.cnblogs.com/leesf456/p/6028416.html )
 
 - 增删改等都有同步和异步操作，同步操作需要try...catch异常，异步调用需要传递一个callback接口，异常或者返回结果在回调接口中执行。
 - watch从zk传递到java需要时间，所以在main后面添加了sleep()
@@ -535,9 +535,7 @@ class IVoidCallback implements AsyncCallback.VoidCallback {
 
 ## 0x12、Zookeeper客户端Curator使用详解
 
-[Zookeeper客户端Curator使用详解]: https://www.jianshu.com/p/70151fc0ef5d
-
-
+[Zookeeper客户端Curator使用详解](https://www.jianshu.com/p/70151fc0ef5d )
 
 - apache开源
 - 解决watcher的注册一次就失效
@@ -1036,3 +1034,10 @@ public class DistributedLock {
 
 ​	2）、**LeaderLatch** 直到挂掉才会重新选举
 
+
+
+### 参考链接：
+
+​	[java调用zk的Api](https://www.cnblogs.com/leesf456/p/6028416.html )
+
+​	[Zookeeper客户端Curator使用详解](https://www.jianshu.com/p/70151fc0ef5d )
