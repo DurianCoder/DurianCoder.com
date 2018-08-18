@@ -127,7 +127,8 @@ NoSQL（Not only SQL)，意思是”不仅仅是SQL"，泛指非关系型数据�
 ![img](/Redis入门教程/string-api-2.png)
 
 ##### 3、**List** （链表）: 底层是一个链表
-![img](/Redis入门教程/list-api.png)![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173239730-1097707098.png)
+![img](/Redis入门教程/list-api-1.png)
+![img](/Redis入门教程/list-api-2.png)
 
 ##### 4、**Hash** （哈希，类似java中Map)：是string类型的key/value映射表，适合存储对象
 ![img](/Redis入门教程/hash-api.png)
