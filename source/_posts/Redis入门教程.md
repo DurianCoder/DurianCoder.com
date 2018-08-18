@@ -7,21 +7,21 @@ tags:
 
 ## **0x01、NoSQL介绍**
 
-​	[Redis博客链接](https://www.cnblogs.com/duriancoder/articles/9383957.html)
+[Redis博客链接](https://www.cnblogs.com/duriancoder/articles/9383957.html)
 
-　要学习Redis首先要了解什么是NoSQL，NoSQL有什么特点等 <!-- more-->
+要学习Redis首先要了解什么是NoSQL，NoSQL有什么特点等 <!-- more-->
 
 #####      **1、什么是NoSQL？**
 
-　　NoSQL（Not only SQL)，意思是”不仅仅是SQL"，泛指非关系型数据库。像常用的关系型数据库MySQL、Oracle和sqlserver，这些数据库一般用来存储数据信息，应对普通的业务没有问题，但是，随着互联网的迅速发展，传统关系型数据库在应对超大规模、流量以及高并发的时候力不从心。这个时候NoSQL派上了用场，得到迅速发展。
+NoSQL（Not only SQL)，意思是”不仅仅是SQL"，泛指非关系型数据库。像常用的关系型数据库MySQL、Oracle和sqlserver，这些数据库一般用来存储数据信息，应对普通的业务没有问题，但是，随着互联网的迅速发展，传统关系型数据库在应对超大规模、流量以及高并发的时候力不从心。这个时候NoSQL派上了用场，得到迅速发展。
 
 ##### 　 **2、NoSQL有哪些特点？**
 
-　　  1）、易扩展。去掉了关系型数据库中间的关系，使得NoSQL非常容易扩展。
+1）、易扩展。去掉了关系型数据库中间的关系，使得NoSQL非常容易扩展。
 
-　  　2）、大数据量高性能。无关系性，数据库结构建档。
+2）、大数据量高性能。无关系性，数据库结构建档。
 
-　　  3）、灵活多样的数据模型。NoSQL不需要简历字段，维护表的结构，可以任意扩展。
+3）、灵活多样的数据模型。NoSQL不需要简历字段，维护表的结构，可以任意扩展。
 
 　　
 
@@ -29,141 +29,137 @@ tags:
 
 ##### **1、常用NoSQL有哪些？**
 
-　**1）、Redis**
+**1）、Redis**
 
-　　　优点：1、支持多种数据结构，如String、list、hash、set、zset、hyperloglog(基数估值)
+优点：1、支持多种数据结构，如String、list、hash、set、zset、hyperloglog(基数估值)
 
-　　　　　　2、支持持久化操作，rdb（redis database）和aof （append only file)
+　　　2、支持持久化操作，rdb（redis database）和aof （append only file)
 
-　　　　　　3、支持主从热备，读写分离等
+　　　3、支持主从热备，读写分离等
 
-　　　　　　4、支持pub/sub消息订阅与通知
+　　　4、支持pub/sub消息订阅与通知
 
-　　　　　　5、支持简单的事务。
+　　　5、支持简单的事务。
 
-　　　缺点：1、Redis是单线程，性能受限于CPU，QBS取决于数据大小和硬件等
+缺点：1、Redis是单线程，性能受限于CPU，QBS取决于数据大小和硬件等
 
-　　　　　　　　　　2、只支持简单事务，不能完全保证事务一致性
+　　　2、只支持简单事务，不能完全保证事务一致性
 
-​    **2）、Mencache**
+**2）、Mencache**
 
-　　　优点：1、可以利用多核优势，单实例吞吐量极高（取决key，value大小和硬件等）
+优点：1、可以利用多核优势，单实例吞吐量极高（取决key，value大小和硬件等）
 
-　　　　　　2、支持直接配置为session handle
+　　　2、支持直接配置为session handle
 
-　　　缺点：1、只支持key/value数据结构
+缺点：1、只支持key/value数据结构
 
-　　　　　　2、不能持久化，数据不能备份，只用用于缓存，重启后数据全部丢失。
+　　　2、不能持久化，数据不能备份，只用用于缓存，重启后数据全部丢失。
 
-　　　　　　3、无法进行数据同步，不能将MC中的数据迁移到其他MC实例中
+　　　3、无法进行数据同步，不能将MC中的数据迁移到其他MC实例中
 
-　**3）、MangoDB**：是一种文档性数据库，即可以存放xml、json、bson等类型数据
+**3）、MangoDB**：是一种文档性数据库，即可以存放xml、json、bson等类型数据
 
-　　　优点：1、支持丰富的数据表达，索引，最类似关系型数据库，支持的查询语言非常丰富
+优点：1、支持丰富的数据表达，索引，最类似关系型数据库，支持的查询语言非常丰富
 
-　　　　　　2、支持master-slave,replicaset（内部采用paxos选举算法，自动故障恢复）,auto sharding机制，对客户端屏蔽了故障转移和切分机制。
+　　　2、支持master-slave,replicaset（内部采用paxos选举算法，自动故障恢复）,auto sharding机制，对客户				端屏蔽了故障转移和切分机制。
 
-　　　　　　3、MongoDB从1.8版本开始采用binlog方式支持持久化的可靠性
+　　    3、MongoDB从1.8版本开始采用binlog方式支持持久化的可靠性
 
-　　　缺点：1、合大数据量的存储，依赖操作系统VM做内存管理，吃内存也比较厉害，服务不要和别的服务在一起
+缺点：1、合大数据量的存储，依赖操作系统VM做内存管理，吃内存也比较厉害，服务不要和别的服务在一起
 
-　　　　　　2、MongoDB不支持事务
+　　　2、MongoDB不支持事务
 
  
 
 ##### 　　**2、Redis、Memcache和MongoDB的区别**
 
-　　　　1、性能：性能都比较高，总体来讲，TPS方面Redis和Memcache差不多，要大于mongoDB。
+**1)、性能**：性能都比较高，总体来讲，TPS方面Redis和Memcache差不多，要大于mongoDB。
 
-　　　　2、数据结构：mencache数据结构单一；redis数据结构丰富；mangoDB支持丰富数据表达、索引、存储过程，最类似关系型数据库。
+**2)、数据结构**：mencache数据结构单一；redis数据结构丰富；mangoDB支持丰富数据表达、索引、存储过程，最类似关系型数据库。
 
-　　　　3、持久化：redis和mangoDB支持持久化，memcache所有数据存储在内存。
+**3)、持久化**：redis和mangoDB支持持久化，memcache所有数据存储在内存。
 
-　　　　4、数据一致性：mencache使用cas保持一致性；redis事务支持比较弱；mangoDB不支持事务。
+**4)、数据一致性**：mencache使用cas保持一致性；redis事务支持比较弱；mangoDB不支持事务。
 
-##### **0x03、非关系性数据库和关系型数据比较**
+
+
+## **0x03、非关系性数据库和关系型数据比较**
 
 **1、关系型数据库和非关系性数据库的区别?**
 
-　　　　数据结构的不同。
+数据结构的不同。
 
 ##### **2、传统数据库的ACID和分布式数据库的CAP**
 
-　　关系型数据库遵循ACID原则：
+*关系型数据库遵循ACID原则：*
 
-　　　　**Atomicity 原子性**：事务里的操作要么全部完成，要么全部失败。
+**Atomicity 原子性**：事务里的操作要么全部完成，要么全部失败。
 
-　　　　**Consistency 一致性**：数据库要一直处于一致的状态，事务的运行不会改变原本一致性约束。
+**Consistency 一致性**：数据库要一直处于一致的状态，事务的运行不会改变原本一致性约束。
 
-　　　　**Isolation 独立性**：并发的多线程相互隔离，互不影响。
+**Isolation 独立性**：并发的多线程相互隔离，互不影响。
 
-　　　　**Durability 持久性**：事务提交后，数据会永久保存到数据库上。
+**Durability 持久性**：事务提交后，数据会永久保存到数据库上。
 
-　　分布式数据库的CAP原则：
+*分布式数据库的CAP原则：*
 
-　　分布式存储系统只能实现两点，由于网络丢包、延迟等存在，必须保证P，所以在A和C之间做权衡。
+分布式存储系统只能实现两点，由于网络丢包、延迟等存在，必须保证P，所以在A和C之间做权衡。
 
-　　　　**Consistency 强一致性**：保证数据一致。
+**Consistency 强一致性**：保证数据一致。
 
-　　　　**Availablity 可用性**：单点故障或者数据不一致，服务是否可用。
+**Availablity 可用性**：单点故障或者数据不一致，服务是否可用。
 
-　　　　**Partition tolerance** ：分区容忍性。
+**Partition tolerance** ：分区容忍性。
 
-　**CAP关系**：可以通过将数据项复制到多个节点来提高分区容忍性，把数据复制到多个节点就会存在数据一致性，多个节点的数据可能不一致，要保证数据一致，每次写操作就要等待全部节点写成功，而等待就会带来可用性问题。总的来说，节点越多，分区容忍性越高，要复制的数据越多，一致性越难保证。更新节点需要时间，就会导致可用性降低；对于一些对数据一致性要求不是特别高的业务，可以通过降低数据一致性来保证高可用性，最终将内存中数据再持久化来达到最终一致性的方案。
+**CAP关系**：可以通过将数据项复制到多个节点来提高分区容忍性，把数据复制到多个节点就会存在数据一致性，多个节点的数据可能不一致，要保证数据一致，每次写操作就要等待全部节点写成功，而等待就会带来可用性问题。总的来说，节点越多，分区容忍性越高，要复制的数据越多，一致性越难保证。更新节点需要时间，就会导致可用性降低；对于一些对数据一致性要求不是特别高的业务，可以通过降低数据一致性来保证高可用性，最终将内存中数据再持久化来达到最终一致性的方案。
 
  
 
 ## **0x04、redis数据结构**
 
-　　可以在[http://redisdoc.com](http://redisdoc.com/)中看所有reids数据类型操作命令
+可以在[http://redisdoc.com](http://redisdoc.com/)中看所有reids数据类型操作命令
 
 ##### 　　1、**key** : redis中对key的基本操作　
 
-​          ![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173101515-1700085797.png)
+![img](/Redis入门教程/key-api.png)
 
  
 
 ##### 　　2、**String** （字符串）：string是redis最基本的数据类型，是二进制安全的，可以理解为和memcache一模一样的数据类型一个key对应一个value，redis中一个字符串value最大为512M
 
-​           ![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173142886-722582661.png)
+![img](/Redis入门教程/string-api.png)
 
-​           ![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173203445-1119674771.png)
+​           ![img](/Redis入门教程/string-api-2.png)
 
  
 
 ##### 　　3、**List** （链表）: 底层是一个链表
 
-​             ![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173224884-87124568.png)
-
-​             ![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173239730-1097707098.png)
+​             ![img](/Redis入门教程/list-api.png)![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173239730-1097707098.png)
 
  
 
-##### 　　4、**Hash** （哈希，类似java中Map)：是string类型的key/value映射表，适合存储对象
-
-　　　  ![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173302141-187996731.png)
+##### 　　4、**Hash** （哈希，类似java中Map)：是string类型的key/value映射表，适合存储对象![img](/Redis入门教程/hash-api.png)
 
  
 
 ##### 　　5、**Set**（集合）：String的无序集合
 
-　　　  ![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173356529-12205001.png)
+ ![](/Redis入门教程/set-api.png)
 
- 
 
-## 　　6、**Zset**（sorted set：有序集合）：在Set的每个元素上添加一个double类型的score，score可以重复，value不能重复
 
-　　　  ![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173412068-1585092673.png)
+##### 　　6、**Zset**（sorted set：有序集合）：在Set的每个元素上添加一个double类型的score，score可以重复，value不能重复
 
-　　     ![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173426698-907901797.png)
+　　　  ![img](/Redis入门教程/zset-api-1.png)
+
+　　     ![img](/Redis入门教程/zset-api-2.png)
 
  
 
 ## **0x05、Redis配置文件介绍**
 
-　　对redis的操作和配置主要是对redis.conf配置文件进行操作，哨兵配置文件sentinel.conf
-
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+对redis的操作和配置主要是对redis.conf配置文件进行操作，哨兵配置文件sentinel.conf
 
 ```
 参数说明
@@ -240,9 +236,7 @@ redis.conf 配置项说明如下：
 30. 指定包含其它的配置文件，可以在同一主机上多个Redis实例之间使用同一份配置文件，而同时各个实例又拥有自己的特定配置文件
   include /path/to/local.conf
 31. 内存机制
-```
-
-　　voltile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
+	voltile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用的数据淘汰
 
 　　volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数据淘汰
 
@@ -254,27 +248,27 @@ redis.conf 配置项说明如下：
 
 　　no-enviction（驱逐）：禁止驱逐数据
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+```
 
- 
+　　
 
 ## **0x06、持久化之rdb、aof**
 
-　　redis的持久化是通过rdb和aof来实现的，下面将详细介绍rdb和aof。
+redis的持久化是通过rdb和aof来实现的，下面将详细介绍rdb和aof。
 
 **RDB介绍：**
 
-　　**1、RDB（Redis DataBase）**：在指定时间间隔将内存中的数据集写入磁盘，也就是Snapshot快照，存储服务器在恢复的时候默认将快照加载到内存中；
+**1、RDB（Redis DataBase）**：在指定时间间隔将内存中的数据集写入磁盘，也就是Snapshot快照，存储服务器在恢复的时候默认将快照加载到内存中；
 
-　　**2、RDB如何持久化**：Redis会fork一个子进程来进行持久化，会将数据写入一个临时文件，等持久化过程结束，再用这个临时文件替换上次持久化好的文件，整个过程中主进程不进行任何IO操作，这就确保极高的性能；如果需要对大规模的数据进行恢复且对数据一致性不是特别敏感，RDB方式要比AOF方式更加高效。
+**2、RDB如何持久化**：Redis会fork一个子进程来进行持久化，会将数据写入一个临时文件，等持久化过程结束，再用这个临时文件替换上次持久化好的文件，整个过程中主进程不进行任何IO操作，这就确保极高的性能；如果需要对大规模的数据进行恢复且对数据一致性不是特别敏感，RDB方式要比AOF方式更加高效。
 
-　　**3、RDB的缺点**：
+**3、RDB的缺点**：
 
-　　　1）、最后一次持久化后的数据可能丢失，AOF可以把这个时间缩短到1秒。
+　1）、最后一次持久化后的数据可能丢失，AOF可以把这个时间缩短到1秒。
 
-​           2）、Fork的时候，内存中的数据被克隆一份，大致2倍的膨胀性需要考虑性能。
+​    2）、Fork的时候，内存中的数据被克隆一份，大致2倍的膨胀性需要考虑性能。
 
-　   **4、如何配置**：可以在redis.conf中配置 save
+ **4、如何配置**：可以在redis.conf中配置 save
 
 \# save ""   关闭rdb
 
@@ -285,37 +279,33 @@ save 60 10000  1min内10000个key改变时持久化
 
 　　除了出发配置的save参数条件外，在执行save（全部阻塞，不提供请求功能）、bgsave（后台持久化，能同时处理了其他客户端请求）、flushall、flushdb操作时也会执行rdb持久化操作。
 
-　   **5、rdb恢复：**dump.rdb会生成在CONFIG GET dir 目录下，在服务器启动时会自动将dump.rdb中数据读取到内存中。
+**5、rdb恢复：**dump.rdb会生成在CONFIG GET dir 目录下，在服务器启动时会自动将dump.rdb中数据读取到内存中。
 
 **AOF简介：**
 
-　　**1、AOF （Append Only File）**：以日志的形式记录Redis每个写操作，默认是关闭状态，启动的时候，Redis重启后会根据日志文件的内容将写指令从头执行一次来完成数据恢复工作。
+**1、AOF （Append Only File）**：以日志的形式记录Redis每个写操作，默认是关闭状态，启动的时候，Redis重启后会根据日志文件的内容将写指令从头执行一次来完成数据恢复工作。
 
-　　**2、AOF配置：**
-
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+**2、AOF配置：**
 
 ```
 # redis 默认配置为no，开启aof改为yes
 appendonly no 
 ```
 
-  # 配置Rewrite
+  ##### 配置Rewrite
 
   auto-aof-rewrite-percentage 100      # 重写的时候大小翻倍
   auto-aof-rewrite-min-size 64mb       # 一般设置为3G+
 
-  # 配置记录方式
+  ##### 配置记录方式
 
-　　appendfsync always  # 同步持久化，每发生数据变更，马上记录到磁盘，一致性好性能查。
+appendfsync always  # 同步持久化，每发生数据变更，马上记录到磁盘，一致性好性能查。
 
-　　appendfsync  everysec  # 异步持久化，每秒记录，如果宕机，丢失一秒数据
+appendfsync  everysec  # 异步持久化，每秒记录，如果宕机，丢失一秒数据
 
-   appendfsync   no    # 从不同步
+appendfsync   no    # 从不同步
 
-[![复制代码](https://common.cnblogs.com/images/copycode.gif)](javascript:void(0);)
-
-　　**3、AOF恢复：**
+**3、AOF恢复：**
 
 \# 正常情况Redis启动时直接执行appendonly.aof
 
@@ -323,29 +313,31 @@ appendonly no
 
 redis-check-aof
 
-　　**4、AOF重写Rewrite：**
+**4、AOF重写Rewrite：**
 
-　　　　**触发**：Redis会记录上次重写时AOF的大小，默认时当AOF文件大小是上次rewrite大小的一倍且大于64M时触发。
+**触发**：Redis会记录上次重写时AOF的大小，默认时当AOF文件大小是上次rewrite大小的一倍且大于64M时触发。
 
-　　　　**重写原理**：AOF增长过大时，会fork一条新进程来将文件重写，重写aof并没有读取 旧的aof，而是将整个内存中的内容用命令的方式重写了一个aof，和快照有点类似。
+**重写原理**：AOF增长过大时，会fork一条新进程来将文件重写，重写aof并没有读取 旧的aof，而是将整个内存中的内容用命令的方式重写了一个aof，和快照有点类似。
 
-　　**5、AOF劣势**
+**5、AOF劣势**
 
-　　　　1、相同数据aof文件远大于rdb文件，恢复速度慢于rdb
+　1、相同数据aof文件远大于rdb文件，恢复速度慢于rdb
 
-　　　　2、aof运行效率慢于rdb，每秒同步策略较好，不同步效率和rdb相同
+　2、aof运行效率慢于rdb，每秒同步策略较好，不同步效率和rdb相同
+
+
 
 ## **0x07、事务、消息订阅**
 
 **1、Redis中的事务：**
 
-　　Redis中的事务比较弱，不能保证原子一致性，能保证事务中的命令按顺序执行。
+Redis中的事务比较弱，不能保证原子一致性，能保证事务中的命令按顺序执行。
 
-　　悲观锁：每次对表的写操作都将表进行加锁，其请求就阻塞。
+悲观锁：每次对表的写操作都将表进行加锁，其请求就阻塞。
 
-　　乐观锁：每次都不加锁，在表中添加一个version每次写的时候比较当前的version是否大于表中version，如果大于则数据没有被更改，执行写操作，否则重新从数据库读取数据执行业务操作。
+乐观锁：每次都不加锁，在表中添加一个version每次写的时候比较当前的version是否大于表中version，如果大于则数据没有被更改，执行写操作，否则重新从数据库读取数据执行业务操作。
 
-　　Redis中的事务常用命令：
+Redis中的事务常用命令：
 
 ```
 WATCH key  　　 #监控锁key，乐观锁,当监控的key有任何变化的时候，事务里的所有命令将全部被放弃
@@ -355,7 +347,9 @@ COMMAND   # 命令入栈
 EXEC       # 事务执行，执行完会释放所有WATCH
 ```
 
-**2、Redis中的发布订阅：发送者 (pub) 发送消息，订阅者（sub）接受消息**
+
+
+**2、Redis中的发布订阅**：发送者 (pub) 发送消息，订阅者（sub）接受消息**
 
 　案例：
 
@@ -410,17 +404,17 @@ sentinel monitor sentinel_name ip port 1
 
 **在windows下连接Linux上的redis时需要保证一下几点：**
 
-　　**1、关闭防火墙**  
+**1、关闭防火墙**  
 
 ```
 systemctl stop firewalld.service 
 ```
 
-　　**2、关闭reids的保护模式，配置redis.conf：protected-mode  no**
+**2、关闭reids的保护模式，配置redis.conf：protected-mode  no**
 
-　　**3、加入jedis.jar和commons-pool2.jar**
+**3、加入jedis.jar和commons-pool2.jar**
 
-创建JedisPool线程安全单例
+**创建JedisPool线程安全单例**
 
 ```
 package com.durian.jedis.util;
@@ -473,7 +467,7 @@ public class JedisPoolUtil {
 }
 ```
 
-基于Jedis实现分布式锁
+**基于Jedis实现分布式锁**
 
 ```
 package com.durian.jedis.api;
@@ -545,7 +539,7 @@ public class DistributeLock {
 }
 ```
 
-Jedis事务、乐观锁
+**Jedis事务、乐观锁**
 
 ```
 package com.durian.jedis.api;
@@ -595,7 +589,7 @@ public class TestLock {
 }
 ```
 
-Jedis使用key
+**Jedis使用key**
 
 ```
 package com.durian.jedis.api;
@@ -644,7 +638,7 @@ public class TestKeyApi {
 }
 ```
 
-Jedis使用String
+**Jedis使用String**
 
 ```
 package com.durian.jedis.api;
@@ -685,7 +679,7 @@ public class TestStringApi {
 }
 ```
 
-Jedis使用List
+**Jedis使用List**
 
 ```
 package com.durian.jedis.api;
@@ -721,7 +715,7 @@ public class TestListApi {
 }
 ```
 
-Jedis使用Hash
+**Jedis使用Hash**
 
 ```
 package com.durian.jedis.api;
@@ -754,7 +748,7 @@ public class TestHashApi {
 }
 ```
 
-Jedis使用Set
+**Jedis使用Set**
 
 ```
 package com.durian.jedis.api;
@@ -780,7 +774,7 @@ public class TestSetApi {
 }
 ```
 
-Jedis使用Zset
+**Jedis使用Zset**
 
 ```
 package com.durian.jedis.api;
