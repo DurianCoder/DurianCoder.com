@@ -11,11 +11,11 @@ tags:
 
 要学习Redis首先要了解什么是NoSQL，NoSQL有什么特点等 <!-- more-->
 
-#####      **1、什么是NoSQL？**
+##### **1、什么是NoSQL？**
 
 NoSQL（Not only SQL)，意思是”不仅仅是SQL"，泛指非关系型数据库。像常用的关系型数据库MySQL、Oracle和sqlserver，这些数据库一般用来存储数据信息，应对普通的业务没有问题，但是，随着互联网的迅速发展，传统关系型数据库在应对超大规模、流量以及高并发的时候力不从心。这个时候NoSQL派上了用场，得到迅速发展。
 
-##### 　 **2、NoSQL有哪些特点？**
+##### **2、NoSQL有哪些特点？**
 
 1）、易扩展。去掉了关系型数据库中间的关系，使得NoSQL非常容易扩展。
 
@@ -71,7 +71,7 @@ NoSQL（Not only SQL)，意思是”不仅仅是SQL"，泛指非关系型数据�
 
  
 
-##### 　　**2、Redis、Memcache和MongoDB的区别**
+##### **2、Redis、Memcache和MongoDB的区别**
 
 **1)、性能**：性能都比较高，总体来讲，TPS方面Redis和Memcache差不多，要大于mongoDB。
 
@@ -119,48 +119,28 @@ NoSQL（Not only SQL)，意思是”不仅仅是SQL"，泛指非关系型数据�
 
 可以在[http://redisdoc.com](http://redisdoc.com/)中看所有reids数据类型操作命令
 
-##### 　　1、**key** : redis中对key的基本操作　
-
+##### 1、**key** : redis中对key的基本操作　
 ![img](/Redis入门教程/key-api.png)
 
- 
-
-##### 　　2、**String** （字符串）：string是redis最基本的数据类型，是二进制安全的，可以理解为和memcache一模一样的数据类型一个key对应一个value，redis中一个字符串value最大为512M
-
+##### 2、**String** （字符串）：string是redis最基本的数据类型，是二进制安全的，可以理解为和memcache一模一样的数据类型一个key对应一个value，redis中一个字符串value最大为512M
 ![img](/Redis入门教程/string-api.png)
+![img](/Redis入门教程/string-api-2.png)
 
-​           ![img](/Redis入门教程/string-api-2.png)
+##### 3、**List** （链表）: 底层是一个链表
+![img](/Redis入门教程/list-api.png)![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173239730-1097707098.png)
 
- 
+##### 4、**Hash** （哈希，类似java中Map)：是string类型的key/value映射表，适合存储对象
+![img](/Redis入门教程/hash-api.png)
 
-##### 　　3、**List** （链表）: 底层是一个链表
+##### 5、**Set**（集合）：String的无序集合
+![](/Redis入门教程/set-api.png)
 
-​             ![img](/Redis入门教程/list-api.png)![img](https://images2018.cnblogs.com/blog/1233188/201807/1233188-20180729173239730-1097707098.png)
-
- 
-
-##### 　　4、**Hash** （哈希，类似java中Map)：是string类型的key/value映射表，适合存储对象![img](/Redis入门教程/hash-api.png)
-
- 
-
-##### 　　5、**Set**（集合）：String的无序集合
-
- ![](/Redis入门教程/set-api.png)
-
-
-
-##### 　　6、**Zset**（sorted set：有序集合）：在Set的每个元素上添加一个double类型的score，score可以重复，value不能重复
-
-　　　  ![img](/Redis入门教程/zset-api-1.png)
-
-　　     ![img](/Redis入门教程/zset-api-2.png)
-
- 
+##### 6、**Zset**（sorted set：有序集合）：在Set的每个元素上添加一个double类型的score，score可以重复，value不能重复
+![img](/Redis入门教程/zset-api-1.png)
+![img](/Redis入门教程/zset-api-2.png)
 
 ## **0x05、Redis配置文件介绍**
-
 对redis的操作和配置主要是对redis.conf配置文件进行操作，哨兵配置文件sentinel.conf
-
 ```
 参数说明
 redis.conf 配置项说明如下：
