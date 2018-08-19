@@ -9,7 +9,7 @@ tags:
 
 [项目地址Github\BQSPro](https://github.com/DurianCoder/BQSPro)
 
-
+<!-- more -->
 
 ## 0x01、配置Maven
 
