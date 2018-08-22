@@ -10,8 +10,8 @@ tags:
 [Redis博客链接](https://www.cnblogs.com/duriancoder/articles/9383957.html)
 
 要学习Redis首先要了解什么是NoSQL，NoSQL有什么特点等 <!-- more-->
-
-##### **1、什么是NoSQL？**
+[TOC]
+**1、什么是NoSQL？**
 
 NoSQL（Not only SQL)，意思是”不仅仅是SQL"，泛指非关系型数据库。像常用的关系型数据库MySQL、Oracle和sqlserver，这些数据库一般用来存储数据信息，应对普通的业务没有问题，但是，随着互联网的迅速发展，传统关系型数据库在应对超大规模、流量以及高并发的时候力不从心。这个时候NoSQL派上了用场，得到迅速发展。
 
