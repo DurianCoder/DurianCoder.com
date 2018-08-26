@@ -11,7 +11,7 @@ tags:
 
 [Maven Assembly官方文档](http://maven.apache.org/plugins/maven-assembly-plugin/assembly.html)
 
-在项目中经常需要将配置文件打包到指定路径，就可以配置使用Assembly插件。
+在项目中经常需要将配置文件打包到指定路径，就可以配置使用Assembly插件。<!-- more  -->
 
 ## 0x02、配置使用assembly
 
