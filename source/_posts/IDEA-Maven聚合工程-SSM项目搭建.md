@@ -146,8 +146,8 @@ tags:
 
 ```
 jdbc.driver=com.mysql.jdbc.Driver
-jdbc.username=root
-jdbc.password=root
+jdbc.username=***
+jdbc.password=***
 jdbc.url=jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf-8&useSSL=false
 ```
 
@@ -324,7 +324,7 @@ public class IndexController {
         </commentGenerator>
 
         <!--数据库链接地址账号密码-->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost/bqs" userId="root" password="root">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost/dababase_name" userId="username" password="pwd">
         </jdbcConnection>
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
