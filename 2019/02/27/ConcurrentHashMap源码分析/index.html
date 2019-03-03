@@ -19,7 +19,7 @@
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-cf24054c2f010329073cd786ba392671_hd.png">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-e3ffa2f184d520f7e00f573577b63480_hd.png">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-052fc729f0e4634484d875887ba40c22_hd.png">
-<meta property="og:updated_time" content="2019-02-28T00:39:59.350Z">
+<meta property="og:updated_time" content="2019-02-28T00:42:31.592Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ConcurrentHashMap源码分析">
 <meta name="twitter:description" content="在学习ConcurrentHashMap之前需要了解一些基础知识，如synchronize、volatile、cas、以及红黑树等 0x01、基础1、原子性，指令有序性，线程可见性原子性：和事务原子性一样，对于一个操作或者多个操作，要么都执行，要么都不执行。">
@@ -188,9 +188,7 @@
 <li><strong>原子性</strong>：<code>volatile</code>具有原子性，但volatile修饰的变量必须执行原子操作才能保证原子性，如<code>a = 1;</code>具有原子性，而<code>a++</code>不是原子操作。<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(<span class="keyword">String</span>[] args) throws InterruptedException &#123;</span><br><span class="line">        <span class="built_in">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> <span class="built_in">run</span>() &#123;</span><br><span class="line">                    increase();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            ).start();</span><br><span class="line">        &#125;</span><br><span class="line">        Thread.sleep(<span class="number">5000</span>);</span><br><span class="line">        System.out.<span class="built_in">println</span>(c);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// 运行结果均小于1000</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h2 id="4、CAS"><a href="#4、CAS" class="headerlink" title="4、CAS"></a>4、CAS</h2><p><strong>CAS</strong>即<code>compare and swap</code>(比较与交换)，它涉及到三个操作数：内存值、预期值、新值。当且仅当预期值和内存值相等时才将内存值修改为新值 。<br><img src="https://pic4.zhimg.com/80/v2-cf24054c2f010329073cd786ba392671_hd.png" alt=""></p>
-<p>Java并发包中很多地方使用到了<code>CAS</code>算法，有效的避免了并发，像<code>AtomicInteger</code>、<code>Semaphore</code>、<code>ReentrantLock</code>等底层都采用了<code>CAS</code>算法。</p>
-<p><strong>CAS自旋</strong>原理：</p>
+<h2 id="4、CAS"><a href="#4、CAS" class="headerlink" title="4、CAS"></a>4、CAS</h2><p><strong>CAS</strong>即<code>compare and swap</code>(比较与交换)，它涉及到三个操作数：内存值、预期值、新值。当且仅当预期值和内存值相等时才将内存值修改为新值 。<br><img src="https://pic4.zhimg.com/80/v2-cf24054c2f010329073cd786ba392671_hd.png" alt="cas"><br>Java并发包中很多地方使用到了<code>CAS</code>算法，有效的避免了并发，像<code>AtomicInteger</code>、<code>Semaphore</code>、<code>ReentrantLock</code>等底层都采用了<code>CAS</code>算法。<br><strong>CAS自旋</strong>原理：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getAndAddInt</span><span class="params">(Object var1, <span class="keyword">long</span> var2, <span class="keyword">int</span> var4)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> var5;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">    	<span class="comment">//得到此时var2这个偏移量在内存中的值，即期望值var5</span></span><br><span class="line">    	var5 = <span class="keyword">this</span>.getIntVolatile(var1, var2);</span><br><span class="line">    	<span class="comment">//compareAndSwapInt通过var1, var2得出实际值，然后和var5进行    对比，如果相同则把var5 + var4（新值写入内存），如果不相同不断do，while循环（自旋）直到相同。</span></span><br><span class="line">    &#125; <span class="keyword">while</span>(!<span class="keyword">this</span>.compareAndSwapInt(var1, var2, var5, var5 + var4));</span><br><span class="line">    <span class="keyword">return</span> var5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="0x02、JDK1-7中的ConcurrentHashMap"><a href="#0x02、JDK1-7中的ConcurrentHashMap" class="headerlink" title="0x02、JDK1.7中的ConcurrentHashMap"></a>0x02、JDK1.7中的ConcurrentHashMap</h1><p>jdk1.7中采用了<code>Segment</code>+<code>HashEntry</code>的方式来实现，结构如下：<br><img src="https://pic1.zhimg.com/80/v2-e3ffa2f184d520f7e00f573577b63480_hd.png" alt=""><br><code>Segment</code>在实现上继承了<code>ReentrantLock</code>,<code>Segment</code>数组将一个大的table分割成多个小的table来进行加锁，也就是实现了细粒度锁分离；每一个<code>Segment</code>元素存储的是一个<code>HashEntry</code>数组+链表，和<code>HashMap</code>的数据存储结构一样。</p>
 <ul>
@@ -244,12 +242,9 @@
 <p>5.为什么加载因子默认为0.75?<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">     * Ideally, thefrequency <span class="keyword">of</span> nodes <span class="keyword">in</span> bins follows <span class="keyword">a</span> Poisson distribution</span><br><span class="line">     * (<span class="keyword">http</span>://en.wikipedia.org/wiki/Poisson_distribution) <span class="keyword">with</span> <span class="keyword">a</span></span><br><span class="line">     * parameter <span class="keyword">of</span> about <span class="number">0.5</span> <span class="keyword">on</span> <span class="title">average</span>, <span class="title">given</span> <span class="title">the</span> <span class="title">resizing</span> <span class="title">threshold</span></span><br><span class="line">     * <span class="keyword">of</span> <span class="number">0.75</span>, although <span class="keyword">with</span> <span class="keyword">a</span> large <span class="built_in">variance</span> because <span class="keyword">of</span> resizing</span><br><span class="line">     * granularity. Ignoring <span class="built_in">variance</span>, <span class="keyword">the</span> expected occurrences <span class="keyword">of</span></span><br><span class="line">     * list size k are (<span class="built_in">exp</span>(<span class="number">-0.5</span>) * pow(<span class="number">0.5</span>, k) / factorial(k)). The</span><br><span class="line">     * <span class="keyword">first</span> values are:</span><br><span class="line">     *</span><br><span class="line">     * <span class="number">0</span>:    <span class="number">0.60653066</span></span><br><span class="line">     * <span class="number">1</span>:    <span class="number">0.30326533</span></span><br><span class="line">     * <span class="number">2</span>:    <span class="number">0.07581633</span></span><br><span class="line">     * <span class="number">3</span>:    <span class="number">0.01263606</span></span><br><span class="line">     * <span class="number">4</span>:    <span class="number">0.00157952</span></span><br><span class="line">     * <span class="number">5</span>:    <span class="number">0.00015795</span></span><br><span class="line">     * <span class="number">6</span>:    <span class="number">0.00001316</span></span><br><span class="line">     * <span class="number">7</span>:    <span class="number">0.00000094</span></span><br><span class="line">     * <span class="number">8</span>:    <span class="number">0.00000006</span></span><br><span class="line">     * more: less than <span class="number">1</span> <span class="keyword">in</span> <span class="literal">ten</span> million</span><br><span class="line">在理想情况下,使用随机哈希码,节点出现的频率在hash桶中遵循泊松分布，同时给出了桶中元素个数和概率的对照表。从上面的表中可以看到当桶中元素到达<span class="number">8</span>个的时候，概率已经变得非常小，也就是说用<span class="number">0.75</span>作为加载因子，每个碰撞位置的链表长度超过８个是几乎不可能的。</span><br></pre></td></tr></table></figure></p>
 <p>加载因子越大，hash冲突的概率越大，空间利用率越高，查询效率越低，加载因子的值需要在hash冲突和空间利用率中间做平衡。</p>
 <h1 id="0x05、参考链接"><a href="#0x05、参考链接" class="headerlink" title="0x05、参考链接"></a>0x05、参考链接</h1><ul>
-<li><p><a href="https://blog.csdn.net/hcmony/article/details/56494527" target="_blank" rel="noopener">为什么加载因子默认为0.75?</a></p>
-</li>
-<li><p><a href="https://www.jianshu.com/p/e694f1e868ec" target="_blank" rel="noopener">谈谈ConcurrentHashMap1.7和1.8的不同实现</a></p>
-</li>
-<li><p><a href="https://duriancoder.github.io/2018/04/07/%E6%B7%B1%E5%85%A5%E5%B9%B6%E5%8F%91%E5%8C%85ConcurrentHashMap/" target="_blank" rel="noopener">深入并发包</a></p>
-</li>
+<li><a href="https://blog.csdn.net/hcmony/article/details/56494527" target="_blank" rel="noopener">为什么加载因子默认为0.75?</a></li>
+<li><a href="https://www.jianshu.com/p/e694f1e868ec" target="_blank" rel="noopener">谈谈ConcurrentHashMap1.7和1.8的不同实现</a></li>
+<li><a href="https://duriancoder.github.io/2018/04/07/%E6%B7%B1%E5%85%A5%E5%B9%B6%E5%8F%91%E5%8C%85ConcurrentHashMap/" target="_blank" rel="noopener">深入并发包</a></li>
 </ul>
 
       
@@ -368,6 +363,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/03/03/树与跳表/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          树与跳表
+        
+      </div>
+    </a>
   
   
     <a href="/2018/08/26/Elasticsearch官方入门教程/" id="article-nav-older" class="article-nav-link-wrap">
@@ -497,6 +501,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -505,15 +513,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+                <a href="javascript:void(0)" class="js-tag color5">jase</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Jase</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">jase</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -525,10 +529,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Maven</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">网络编程</a>
               </li>
              
@@ -537,7 +537,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">git</a>
+                <a href="javascript:void(0)" class="js-tag color1">Maven</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -553,11 +553,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">锁</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -569,7 +565,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">多线程并发</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">锁</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -577,11 +577,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ssm</a>
+                <a href="javascript:void(0)" class="js-tag color1">多线程并发</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">树</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">跳表</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">SkipList</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">操作系统</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ssm</a>
               </li>
              
               <li class="article-tag-list-item">
