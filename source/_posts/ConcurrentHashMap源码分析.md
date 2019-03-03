@@ -41,10 +41,8 @@ public static void main(String[] args) throws InterruptedException {
 ## 4、CAS
 
 **CAS**即`compare and swap`(比较与交换)，它涉及到三个操作数：内存值、预期值、新值。当且仅当预期值和内存值相等时才将内存值修改为新值 。
-![](https://pic4.zhimg.com/80/v2-cf24054c2f010329073cd786ba392671_hd.png)
-
+![cas](https://pic4.zhimg.com/80/v2-cf24054c2f010329073cd786ba392671_hd.png)
 Java并发包中很多地方使用到了`CAS`算法，有效的避免了并发，像`AtomicInteger`、`Semaphore`、`ReentrantLock`等底层都采用了`CAS`算法。
-
 **CAS自旋**原理：
 
 ```
@@ -161,10 +159,7 @@ jdk1.7中采用了`Segment`+`HashEntry`的方式来实现，结构如下：
 加载因子越大，hash冲突的概率越大，空间利用率越高，查询效率越低，加载因子的值需要在hash冲突和空间利用率中间做平衡。
 
 # 0x05、参考链接
-
 - [为什么加载因子默认为0.75?](https://blog.csdn.net/hcmony/article/details/56494527)
-
 - [谈谈ConcurrentHashMap1.7和1.8的不同实现](<https://www.jianshu.com/p/e694f1e868ec>)
-
 - [深入并发包](<https://duriancoder.github.io/2018/04/07/%E6%B7%B1%E5%85%A5%E5%B9%B6%E5%8F%91%E5%8C%85ConcurrentHashMap/>)
 

@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b4f09348-5826-4849-8ef9-34beb0b15695" name="Default" comment="添加ConcurrentHashMap源码分析.md">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/_posts/ConcurrentHashMap源码分析.md" beforeDir="false" afterPath="$PROJECT_DIR$/source/_posts/ConcurrentHashMap源码分析.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,8 +27,8 @@
         <entry file="file://$PROJECT_DIR$/source/_posts/ConcurrentHashMap源码分析.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="220">
-                <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+              <first_editor relative-caret-position="154">
+                <caret line="126" column="26" selection-start-line="126" selection-start-column="7" selection-end-line="126" selection-end-column="26" />
               </first_editor>
               <second_editor />
             </state>
@@ -156,7 +153,7 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="139" />
     <option name="y" value="73" />
     <option name="width" value="1267" />
@@ -197,7 +194,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551314337731" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551365782593" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
@@ -262,7 +259,7 @@
       <option name="presentableId" value="Default" />
       <updated>1534554519118</updated>
       <workItem from="1534554520585" duration="357000" />
-      <workItem from="1551197489719" duration="6226000" />
+      <workItem from="1551197489719" duration="7095000" />
     </task>
     <task id="LOCAL-00001" summary="添加ConcurrentHashMap源码分析.md">
       <created>1551281344841</created>
@@ -275,11 +272,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6583000" />
+    <option name="totallyTimeSpent" value="7452000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="32" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="32" width="1936" height="1056" extended-state="7" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25266525" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -436,8 +432,8 @@
     <entry file="file://$PROJECT_DIR$/source/_posts/ConcurrentHashMap源码分析.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="220">
-            <caret line="160" lean-forward="true" selection-start-line="160" selection-end-line="160" />
+          <first_editor relative-caret-position="154">
+            <caret line="126" column="26" selection-start-line="126" selection-start-column="7" selection-end-line="126" selection-end-column="26" />
           </first_editor>
           <second_editor />
         </state>
