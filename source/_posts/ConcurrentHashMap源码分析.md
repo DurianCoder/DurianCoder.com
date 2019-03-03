@@ -41,7 +41,7 @@ public static void main(String[] args) throws InterruptedException {
 ## 4、CAS
 
 **CAS**即`compare and swap`(比较与交换)，它涉及到三个操作数：内存值、预期值、新值。当且仅当预期值和内存值相等时才将内存值修改为新值 。
-![cas](https://pic4.zhimg.com/80/v2-cf24054c2f010329073cd786ba392671_hd.png)
+![cas](/cas.png)
 Java并发包中很多地方使用到了`CAS`算法，有效的避免了并发，像`AtomicInteger`、`Semaphore`、`ReentrantLock`等底层都采用了`CAS`算法。
 **CAS自旋**原理：
 
@@ -60,8 +60,9 @@ public final int getAndAddInt(Object var1, long var2, int var4) {
 # 0x02、JDK1.7中的ConcurrentHashMap
 
 jdk1.7中采用了`Segment`+`HashEntry`的方式来实现，结构如下：
-![](https://pic1.zhimg.com/80/v2-e3ffa2f184d520f7e00f573577b63480_hd.png)
+![](/jdk7.png)
 `Segment`在实现上继承了`ReentrantLock`,`Segment`数组将一个大的table分割成多个小的table来进行加锁，也就是实现了细粒度锁分离；每一个`Segment`元素存储的是一个`HashEntry`数组+链表，和`HashMap`的数据存储结构一样。
+
 - Put实现：
   当执行put方法插入数据时，根据key的hash值，在Segment数组中找到相应的位置，如果相应位置的Segment还未初始化，则通过CAS进行赋值，接着执行Segment对象的put方法通过加锁机制插入数据，实现如下：
   场景：线程A和线程B同时执行相同Segment对象的put方法
@@ -81,7 +82,7 @@ jdk1.7中采用了`Segment`+`HashEntry`的方式来实现，结构如下：
 
 1.8中放弃了`Segment`臃肿的设计，取而代之的是采用`Node` + `CAS` + `Synchronized`来保证并发安全进行实现，结构如下：
 
-![](https://pic1.zhimg.com/80/v2-052fc729f0e4634484d875887ba40c22_hd.png)
+![](jdk8.png)
 
 - put实现
   当执行put方法插入数据时，根据key的hashcode再哈希，在Node数组中找到对应的位置，实现如下：
