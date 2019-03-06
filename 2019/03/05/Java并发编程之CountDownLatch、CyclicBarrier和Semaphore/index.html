@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Java并发编程之CountDownLatch、CyclicBarrier和Semaphore | Durian的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="原文链接 在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。 0x01、CountDownLatch用法CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执">
+  <meta name="description" content="在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。 0x01、CountDownLatch用法CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执行完毕之后">
 <meta name="keywords" content="并发,CountDownLatch,CyclicBarrier,Semaphore">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java并发编程之CountDownLatch、CyclicBarrier和Semaphore">
 <meta property="og:url" content="http://yoursite.com/2019/03/05/Java并发编程之CountDownLatch、CyclicBarrier和Semaphore/index.html">
 <meta property="og:site_name" content="Durian的博客">
-<meta property="og:description" content="原文链接 在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。 0x01、CountDownLatch用法CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执">
+<meta property="og:description" content="在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。 0x01、CountDownLatch用法CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执行完毕之后">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-05T14:09:56.074Z">
+<meta property="og:updated_time" content="2019-03-06T00:24:00.539Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程之CountDownLatch、CyclicBarrier和Semaphore">
-<meta name="twitter:description" content="原文链接 在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。 0x01、CountDownLatch用法CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执">
+<meta name="twitter:description" content="在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。 0x01、CountDownLatch用法CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执行完毕之后">
   
     <link rel="alternative" href="/atom.xml" title="Durian的博客" type="application/atom+xml">
   
@@ -175,8 +175,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://www.cnblogs.com/dolphin0520/p/3920397.html" target="_blank" rel="noopener">原文链接</a></p>
-<p>在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。</p>
+        <p>在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。</p>
 <h1 id="0x01、CountDownLatch用法"><a href="#0x01、CountDownLatch用法" class="headerlink" title="0x01、CountDownLatch用法"></a>0x01、CountDownLatch用法</h1><p>CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行，此时就可以利用CountDownLatch来实现这种功能了。CountDownLatch类只提供了一个构造器：<a id="more"></a></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">CountDownLatch</span><span class="params">(<span class="keyword">int</span> count)</span> </span>&#123;  &#125;;  <span class="comment">//参数count为计数值</span></span><br></pre></td></tr></table></figure>
 <p>然后下面这3个方法是CountDownLatch类中最重要的方法：</p>
@@ -230,7 +229,8 @@
 <p>　　　　而CyclicBarrier一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行；</p>
 <p>　　　　另外，CountDownLatch是不能够重用的，而CyclicBarrier是可以重用的。</p>
 <p>　　2）Semaphore其实和锁有点类似，它一般用于控制对某组资源的访问权限。</p>
-<h1 id="0X04、参考资料："><a href="#0X04、参考资料：" class="headerlink" title="0X04、参考资料："></a>0X04、参考资料：</h1><p>《Java编程思想》</p>
+<h1 id="0X04、参考资料："><a href="#0X04、参考资料：" class="headerlink" title="0X04、参考资料："></a>0X04、参考资料：</h1><p><a href="https://www.cnblogs.com/dolphin0520/p/3920397.html" target="_blank" rel="noopener">原文链接，转载请说明！</a></p>
+<p>《Java编程思想》</p>
 <p><a href="http://www.itzhai.com/the-introduction-and-use-of-a-countdownlatch.html" target="_blank" rel="noopener">http://www.itzhai.com/the-introduction-and-use-of-a-countdownlatch.html</a><br><a href="http://leaver.me/archives/3220.html" target="_blank" rel="noopener">http://leaver.me/archives/3220.html</a><br><a href="http://developer.51cto.com/art/201403/432095.htm" target="_blank" rel="noopener">http://developer.51cto.com/art/201403/432095.htm</a><br><a href="http://blog.csdn.net/yanhandle/article/details/9016329" target="_blank" rel="noopener">http://blog.csdn.net/yanhandle/article/details/9016329</a><br><a href="http://blog.csdn.net/cutesource/article/details/5780740" target="_blank" rel="noopener">http://blog.csdn.net/cutesource/article/details/5780740</a><br><a href="http://www.cnblogs.com/whgw/archive/2011/09/29/2195555.html" target="_blank" rel="noopener">http://www.cnblogs.com/whgw/archive/2011/09/29/2195555.html</a></p>
 
       

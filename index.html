@@ -176,8 +176,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://www.cnblogs.com/dolphin0520/p/3949310.html" target="_blank" rel="noopener">原文链接</a></p>
-<p>创建线程的常用两种方式：一种是直接继承Thread，另外一种就是实现Runnable接口。</p>
+        <p>创建线程的常用两种方式：一种是直接继承Thread，另外一种就是实现Runnable接口。</p>
 <p>这2种方式都有一个缺陷就是：在执行完任务之后无法获取执行结果。</p>
 <p>如果需要获取执行结果，就必须通过共享变量或者使用线程通信的方式来达到效果，这样使用起来就比较麻烦。</p>
 <p>而自从Java 1.5开始，就提供了Callable和Future，通过它们可以在任务执行完毕之后得到任务执行结果。</p>
@@ -269,8 +268,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://www.cnblogs.com/dolphin0520/p/3920397.html" target="_blank" rel="noopener">原文链接</a></p>
-<p>在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。</p>
+        <p>在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。</p>
 <h1 id="0x01、CountDownLatch用法"><a href="#0x01、CountDownLatch用法" class="headerlink" title="0x01、CountDownLatch用法"></a>0x01、CountDownLatch用法</h1><p>CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行，此时就可以利用CountDownLatch来实现这种功能了。CountDownLatch类只提供了一个构造器：</p>
         
           <a class="article-more-a" href="/2019/03/05/Java并发编程之CountDownLatch、CyclicBarrier和Semaphore/#more">more >></a>
