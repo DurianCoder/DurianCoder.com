@@ -8,8 +8,6 @@ tags:
 	- FutureTask
 ---
 
-[原文链接](<https://www.cnblogs.com/dolphin0520/p/3949310.html>)
-
 创建线程的常用两种方式：一种是直接继承Thread，另外一种就是实现Runnable接口。
 
 这2种方式都有一个缺陷就是：在执行完任务之后无法获取执行结果。
@@ -223,5 +221,7 @@ class Task implements Callable<Integer>{
 如果为了可取消性而使用 Future 但又不提供可用的结果，则可以声明 Future<?> 形式类型、并返回 null 作为底层任务的结果。
 
 # 0x05、参考链接
+
+[原文链接，转载请说明！](<https://www.cnblogs.com/dolphin0520/p/3949310.html>)
 
 [Java并发编程：Callable、Future和FutureTask](https://www.cnblogs.com/dolphin0520/p/3949310.html)]

@@ -8,8 +8,6 @@ tags:
 	- Semaphore
 ---
 
-[原文链接](https://www.cnblogs.com/dolphin0520/p/3920397.html)
-
 在java 1.5中，提供了一些非常有用的辅助类来帮助我们进行并发编程，比如CountDownLatch，CyclicBarrier和Semaphore，今天我们就来学习一下这三个辅助类的用法。
 
 # 0x01、CountDownLatch用法
@@ -420,6 +418,8 @@ public class Test {
 　　2）Semaphore其实和锁有点类似，它一般用于控制对某组资源的访问权限。
 
 # 0X04、参考资料：
+
+[原文链接，转载请说明！](https://www.cnblogs.com/dolphin0520/p/3920397.html)
 
 《Java编程思想》
 
