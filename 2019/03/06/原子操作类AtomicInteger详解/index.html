@@ -6,20 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>volatile和synchronized介绍 | Durian的博客</title>
+  <title>原子操作类AtomicInteger详解 | Durian的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0x01、volatile和synchronized特点首先需要理解线程安全的两个方面：执行控制和内存可见。 执行控制：控制代码执行（顺序）及是否可以并发执行。 内存可见：控制的是线程执行结果在内存中对其它线程的可见性。根据Java内存模型的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。  关键字synchronized、volatile介">
-<meta name="keywords" content="多线程并发">
+  <meta name="description" content="0x01、为什么需要AtomicInteger原子操作类？对于Java中的运算操作，例如自增或自减，若没有进行额外的同步操作，在多线程环境下就是线程不安全的。num++解析为num=num+1，明显，这个操作不具备原子性，多线程并发共享这个变量时必然会出现问题。测试代码如下: 1234567891011121314151617181920212223242526272829public class">
+<meta name="keywords" content="并发,AtomicInteger">
 <meta property="og:type" content="article">
-<meta property="og:title" content="volatile和synchronized介绍">
-<meta property="og:url" content="http://yoursite.com/2018/04/05/volatile-synchronized/index.html">
+<meta property="og:title" content="原子操作类AtomicInteger详解">
+<meta property="og:url" content="http://yoursite.com/2019/03/06/原子操作类AtomicInteger详解/index.html">
 <meta property="og:site_name" content="Durian的博客">
-<meta property="og:description" content="0x01、volatile和synchronized特点首先需要理解线程安全的两个方面：执行控制和内存可见。 执行控制：控制代码执行（顺序）及是否可以并发执行。 内存可见：控制的是线程执行结果在内存中对其它线程的可见性。根据Java内存模型的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。  关键字synchronized、volatile介">
+<meta property="og:description" content="0x01、为什么需要AtomicInteger原子操作类？对于Java中的运算操作，例如自增或自减，若没有进行额外的同步操作，在多线程环境下就是线程不安全的。num++解析为num=num+1，明显，这个操作不具备原子性，多线程并发共享这个变量时必然会出现问题。测试代码如下: 1234567891011121314151617181920212223242526272829public class">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-26T16:11:16.415Z">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-a786369d2fd2feade31705654ead2fb1_hd.png">
+<meta property="og:updated_time" content="2019-03-06T12:11:36.121Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="volatile和synchronized介绍">
-<meta name="twitter:description" content="0x01、volatile和synchronized特点首先需要理解线程安全的两个方面：执行控制和内存可见。 执行控制：控制代码执行（顺序）及是否可以并发执行。 内存可见：控制的是线程执行结果在内存中对其它线程的可见性。根据Java内存模型的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。  关键字synchronized、volatile介">
+<meta name="twitter:title" content="原子操作类AtomicInteger详解">
+<meta name="twitter:description" content="0x01、为什么需要AtomicInteger原子操作类？对于Java中的运算操作，例如自增或自减，若没有进行额外的同步操作，在多线程环境下就是线程不安全的。num++解析为num=num+1，明显，这个操作不具备原子性，多线程并发共享这个变量时必然会出现问题。测试代码如下: 1234567891011121314151617181920212223242526272829public class">
+<meta name="twitter:image" content="https://pic3.zhimg.com/80/v2-a786369d2fd2feade31705654ead2fb1_hd.png">
   
     <link rel="alternative" href="/atom.xml" title="Durian的博客" type="application/atom+xml">
   
@@ -155,51 +157,45 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-volatile-synchronized" class="article article-type-post " itemscope="" itemprop="blogPost">
+            <article id="post-原子操作类AtomicInteger详解" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      volatile和synchronized介绍
+      原子操作类AtomicInteger详解
     </h1>
   
 
         
-        <a href="/2018/04/05/volatile-synchronized/" class="archive-article-date">
-  	<time datetime="2018-04-05T03:19:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-05</time>
+        <a href="/2019/03/06/原子操作类AtomicInteger详解/" class="archive-article-date">
+  	<time datetime="2019-03-06T11:38:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-06</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="0x01、volatile和synchronized特点"><a href="#0x01、volatile和synchronized特点" class="headerlink" title="0x01、volatile和synchronized特点"></a>0x01、volatile和synchronized特点</h2><h3 id="首先需要理解线程安全的两个方面：执行控制和内存可见。"><a href="#首先需要理解线程安全的两个方面：执行控制和内存可见。" class="headerlink" title="首先需要理解线程安全的两个方面：执行控制和内存可见。"></a>首先需要理解线程安全的两个方面：<strong>执行控制</strong>和<strong>内存可见</strong>。</h3><blockquote>
-<p><strong>执行控制</strong>：控制代码执行（顺序）及是否可以并发执行。</p>
-<p><strong>内存可见</strong>：控制的是线程执行结果在内存中对其它线程的可见性。根据<a href="http://blog.csdn.net/suifeng3051/article/details/52611310" target="_blank" rel="noopener">Java内存模型</a>的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。</p>
-</blockquote>
-<h4 id="关键字synchronized、volatile介绍"><a href="#关键字synchronized、volatile介绍" class="headerlink" title="关键字synchronized、volatile介绍"></a>关键字synchronized、volatile介绍</h4><a id="more"></a>
-<blockquote>
-<p><strong>synchronized</strong>关键字：解决的是执行控制的问题，它会阻止其它线程获取当前对象的监控锁，这样就使得当前对象中被<code>synchronized</code>关键字保护的代码块无法被其它线程访问，也就无法并发执行。更重要的是，<code>synchronized</code>还会创建一个<strong>内存屏障</strong>，内存屏障指令保证了所有CPU操作结果都会直接刷到主存中，从而保证了操作的内存可见性，同时也使得先获得这个锁的线程的所有操作，都<strong>happens-before</strong>于随后获得这个锁的线程的操作。</p>
-</blockquote>
-<blockquote>
-<p><strong>volatile</strong>关键字：解决的是内存可见性的问题，会使得所有对<code>volatile</code>变量的读写都会直接刷到主存，即保证了变量的可见性。这样就能满足一些对变量可见性有要求而对读取顺序没有要求的需求。</p>
-</blockquote>
-<p><strong>注意：</strong>使用<code>volatile</code>关键字仅能实现对原始变量(如boolen、 short 、int 、long等)操作的原子性，但需要特别注意， <code>volatile</code><strong>不能保证复合操作的原子性</strong>，即使只是<code>i++</code>，实际上也是由多个原子操作组成：<code>read i; inc; write i</code>，假如多个线程同时执行<code>i++</code>，<code>volatile</code>只能保证他们操作的<strong><code>i</code>是同一块内存</strong>，但依然可能出现写入脏数据的情况。</p>
-<p>在Java 5提供了原子数据类型<code>atomic wrapper classes</code>，对它们的<code>increase</code>之类的操作都是原子操作，不需要使用<code>sychronized</code>关键字。</p>
-<p>对于<code>volatile</code>关键字，当且仅当满足以下所有条件时可使用：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>对变量的写入操作不依赖变量的当前值，或者你能确保只有单个线程更新变量的值。</span><br><span class="line"><span class="bullet">2. </span>该变量没有包含在具有其他变量的不变式中。</span><br></pre></td></tr></table></figure>
-<h2 id="0x02、volatile和synchronized的区别"><a href="#0x02、volatile和synchronized的区别" class="headerlink" title="0x02、volatile和synchronized的区别"></a>0x02、volatile和synchronized的区别</h2><blockquote>
-<ol>
-<li>volatile本质是在告诉jvm当前变量在寄存器（工作内存）中的值是不确定的，需要从主存中读取； synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞住。</li>
-<li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别的</li>
-<li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
-<li>volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。</li>
-<li>volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化</li>
-</ol>
-</blockquote>
-<p>如果想更好地理解这两个关键字的作用，强烈建议看一下这篇文章：<a href="http://blog.csdn.net/suifeng3051/article/details/52611310" target="_blank" rel="noopener">Java内存模型</a></p>
+        <h1 id="0x01、为什么需要AtomicInteger原子操作类？"><a href="#0x01、为什么需要AtomicInteger原子操作类？" class="headerlink" title="0x01、为什么需要AtomicInteger原子操作类？"></a>0x01、为什么需要AtomicInteger原子操作类？</h1><p>对于Java中的运算操作，例如自增或自减，若没有进行额外的同步操作，在多线程环境下就是线程不安全的。num++解析为num=num+1，明显，这个操作不具备原子性，多线程并发共享这个变量时必然会出现问题。测试代码如下:</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AtomicIntegerTest</span> &#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> final <span class="keyword">int</span> THREADS_CONUT = <span class="number">20</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">increase</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</span><br><span class="line">        Thread[] threads = <span class="keyword">new</span> Thread[THREADS_CONUT];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; THREADS_CONUT; i++) &#123;</span><br><span class="line">            threads[i] = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">                        increase();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            threads[i].start();</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">while</span> (Thread.activeCount() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            Thread.<span class="keyword">yield</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        System.<span class="keyword">out</span>.println(count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里运行了20个线程，每个线程对count变量进行1000此自增操作，如果上面这段代码能够正常并发的话，最后的结果应该是20000才对，但实际结果却发现每次运行的结果都不相同，都是一个小于20000的数字。这是为什么呢？</p>
+<p>0x02、使用volatile修饰count变量？</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AtomicIntegerTest</span> &#123;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> final <span class="keyword">int</span> THREADS_CONUT = <span class="number">20</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">increase</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        count++;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(<span class="params">String[] args</span>) </span>&#123;</span><br><span class="line">        Thread[] threads = <span class="keyword">new</span> Thread[THREADS_CONUT];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; THREADS_CONUT; i++) &#123;</span><br><span class="line">            threads[i] = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">                        increase();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            threads[i].start();</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">while</span> (Thread.activeCount() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            Thread.<span class="keyword">yield</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        System.<span class="keyword">out</span>.println(count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果似乎又失望了，测试结果和上面的一致，每次都是输出小于20000的数字。这又是为什么么？ 上面的论据是正确的，也就是上面标红的内容，但是这个论据并不能得出”基于volatile变量的运算在并发下是安全的”这个结论，因为核心点在于java里的运算（比如自增）并不是原子性的。</p>
+<p>0x03、用了AtomicInteger类后会变成什么样子呢？</p>
+<p>把上面的代码改造成AtomicInteger原子类型，先看看效果</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.durian;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.LinkedBlockingDeque;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ThreadPoolExecutor;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> AtomicTest &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicInteger <span class="keyword">count</span> = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> increase() &#123;</span><br><span class="line">        <span class="keyword">count</span>.incrementAndGet();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> inc() &#123;</span><br><span class="line">        num ++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) <span class="keyword">throws</span> InterruptedException &#123;</span><br><span class="line">        System.out.<span class="keyword">println</span>(<span class="string">"111"</span>);</span><br><span class="line"></span><br><span class="line">        ThreadPoolExecutor threadPoolExecutor = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">5</span>, <span class="number">10</span>, <span class="number">2</span>, TimeUnit.SECONDS, <span class="keyword">new</span> LinkedBlockingDeque&lt;Runnable&gt;());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++) &#123;</span><br><span class="line">            threadPoolExecutor.submit(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                <span class="keyword">public</span> <span class="keyword">void</span> run() &#123;</span><br><span class="line">                    increase();</span><br><span class="line">                    inc();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (threadPoolExecutor.getActiveCount() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.<span class="keyword">println</span>(<span class="keyword">count</span>);</span><br><span class="line">        System.out.<span class="keyword">println</span>(num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>结果每次都输出20000，程序输出了正确的结果，这都归功于AtomicInteger.incrementAndGet()方法的原子性。</p>
+<h1 id="0X04、非阻塞同步"><a href="#0X04、非阻塞同步" class="headerlink" title="0X04、非阻塞同步"></a>0X04、非阻塞同步</h1><p>同步：多线程并发访问共享数据时，保证共享数据再同一时刻只被一个或一些线程使用。<br>我们知道，阻塞同步和非阻塞同步都是实现线程安全的两个保障手段，非阻塞同步对于阻塞同步而言主要解决了阻塞同步中线程阻塞和唤醒带来的性能问题，那什么叫做非阻塞同步呢？在并发环境下，某个线程对共享变量先进行操作，如果没有其他线程争用共享数据那操作就成功；如果存在数据的争用冲突，那就才去补偿措施，比如不断的重试机制，直到成功为止，因为这种乐观的并发策略不需要把线程挂起，也就把这种同步操作称为非阻塞同步（操作和冲突检测具备原子性）。在硬件指令集的发展驱动下，使得 “操作和冲突检测” 这种看起来需要多次操作的行为只需要一条处理器指令便可以完成，这些指令中就包括非常著名的CAS指令（Compare-And-Swap比较并交换）。《深入理解Java虚拟机第二版.周志明》第十三章中这样描述关于CAS机制:</p>
+<p><img src="https://pic3.zhimg.com/80/v2-a786369d2fd2feade31705654ead2fb1_hd.png" alt=""></p>
+<p>所以再返回来看AtomicInteger.incrementAndGet()方法，它的时间也比较简单</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Atomically increments by one the current value.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * @return the updated value</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> incrementAndGet() &#123;</span><br><span class="line">       <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">           <span class="keyword">int</span> current = get();</span><br><span class="line">           <span class="keyword">int</span> <span class="keyword">next</span> = current + <span class="number">1</span>;</span><br><span class="line">           <span class="keyword">if</span> (compareAndSet(current, <span class="keyword">next</span>))</span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">next</span>;</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+<p>incrementAndGet()方法在一个无限循环体内，不断尝试将一个比当前值大1的新值赋给自己，如果失败则说明在执行”获取-设置”操作的时已经被其它线程修改过了，于是便再次进入循环下一次操作，直到成功为止。这个便是AtomicInteger原子性的”诀窍”了，继续进源码看它的compareAndSet方法:</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * Atomically sets the value to the given updated value</span></span><br><span class="line"><span class="comment">    * if the current value &#123;<span class="doctag">@code</span> ==&#125; the expected value.</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> expect the expected value</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> update the new value</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> true if successful. False return indicates that</span></span><br><span class="line"><span class="comment">    * the actual value was not equal to the expected value.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> <span class="function"><span class="keyword">boolean</span> <span class="title">compareAndSet</span><span class="params">(<span class="keyword">int</span> expect, <span class="keyword">int</span> update)</span> </span>&#123;</span><br><span class="line">       <span class="function"><span class="keyword">return</span> unsafe.<span class="title">compareAndSwapInt</span><span class="params">(<span class="keyword">this</span>, valueOffset, expect, update)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，compareAndSet()调用的就是Unsafe.compareAndSwapInt()方法，即Unsafe类的CAS操作。</p>
+<p>0X05、参考链接</p>
+<p><a href="https://blog.csdn.net/fanrenxiang/article/details/80623884" target="_blank" rel="noopener">原子操作类AtomicInteger详解</a></p>
 
       
 
@@ -244,7 +240,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">多线程并发</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">AtomicInteger</a>
         		</li>
       		
 		</ul>
@@ -300,7 +300,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/04/05/volatile-synchronized/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/03/06/原子操作类AtomicInteger详解/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -314,18 +314,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/04/05/Java中数据存储/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Java中的数据存储
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/04/05/理解Java内存模型/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">深入理解Java内存模型JMM</div>
+    <a href="/2019/03/05/Java并发编程之Callable、Future和FutureTask/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java并发编程：Callable、Future和FutureTask</div>
       <i class="icon-circle-right"></i>
     </a>
   

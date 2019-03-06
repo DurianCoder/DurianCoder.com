@@ -6,20 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>volatile和synchronized介绍 | Durian的博客</title>
+  <title>Tag: AtomicInteger | Durian的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="0x01、volatile和synchronized特点首先需要理解线程安全的两个方面：执行控制和内存可见。 执行控制：控制代码执行（顺序）及是否可以并发执行。 内存可见：控制的是线程执行结果在内存中对其它线程的可见性。根据Java内存模型的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。  关键字synchronized、volatile介">
-<meta name="keywords" content="多线程并发">
-<meta property="og:type" content="article">
-<meta property="og:title" content="volatile和synchronized介绍">
-<meta property="og:url" content="http://yoursite.com/2018/04/05/volatile-synchronized/index.html">
+  <meta name="description" content="擅长各项前端技能，深入研究移动端开发与前端性能。非专业视觉设计师。此为博客一枚。">
+<meta name="keywords" content="前端,js,jquery,javascript,html5,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,html,css,css3,用户体验">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Durian的博客">
+<meta property="og:url" content="http://yoursite.com/tags/AtomicInteger/index.html">
 <meta property="og:site_name" content="Durian的博客">
-<meta property="og:description" content="0x01、volatile和synchronized特点首先需要理解线程安全的两个方面：执行控制和内存可见。 执行控制：控制代码执行（顺序）及是否可以并发执行。 内存可见：控制的是线程执行结果在内存中对其它线程的可见性。根据Java内存模型的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。  关键字synchronized、volatile介">
+<meta property="og:description" content="擅长各项前端技能，深入研究移动端开发与前端性能。非专业视觉设计师。此为博客一枚。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-26T16:11:16.415Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="volatile和synchronized介绍">
-<meta name="twitter:description" content="0x01、volatile和synchronized特点首先需要理解线程安全的两个方面：执行控制和内存可见。 执行控制：控制代码执行（顺序）及是否可以并发执行。 内存可见：控制的是线程执行结果在内存中对其它线程的可见性。根据Java内存模型的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。  关键字synchronized、volatile介">
+<meta name="twitter:title" content="Durian的博客">
+<meta name="twitter:description" content="擅长各项前端技能，深入研究移动端开发与前端性能。非专业视觉设计师。此为博客一枚。">
   
     <link rel="alternative" href="/atom.xml" title="Durian的博客" type="application/atom+xml">
   
@@ -155,210 +154,64 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-volatile-synchronized" class="article article-type-post " itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      volatile和synchronized介绍
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/03/06/原子操作类AtomicInteger详解/" class="archive-article-date">
+  	<time datetime="2019-03-06T11:38:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-06</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/03/06/原子操作类AtomicInteger详解/">原子操作类AtomicInteger详解</a>
     </h1>
   
 
-        
-        <a href="/2018/04/05/volatile-synchronized/" class="archive-article-date">
-  	<time datetime="2018-04-05T03:19:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="0x01、volatile和synchronized特点"><a href="#0x01、volatile和synchronized特点" class="headerlink" title="0x01、volatile和synchronized特点"></a>0x01、volatile和synchronized特点</h2><h3 id="首先需要理解线程安全的两个方面：执行控制和内存可见。"><a href="#首先需要理解线程安全的两个方面：执行控制和内存可见。" class="headerlink" title="首先需要理解线程安全的两个方面：执行控制和内存可见。"></a>首先需要理解线程安全的两个方面：<strong>执行控制</strong>和<strong>内存可见</strong>。</h3><blockquote>
-<p><strong>执行控制</strong>：控制代码执行（顺序）及是否可以并发执行。</p>
-<p><strong>内存可见</strong>：控制的是线程执行结果在内存中对其它线程的可见性。根据<a href="http://blog.csdn.net/suifeng3051/article/details/52611310" target="_blank" rel="noopener">Java内存模型</a>的实现，线程在具体执行时，会先拷贝主存数据到线程本地（CPU缓存），操作完成后再把结果从线程本地刷到主存。</p>
-</blockquote>
-<h4 id="关键字synchronized、volatile介绍"><a href="#关键字synchronized、volatile介绍" class="headerlink" title="关键字synchronized、volatile介绍"></a>关键字synchronized、volatile介绍</h4><a id="more"></a>
-<blockquote>
-<p><strong>synchronized</strong>关键字：解决的是执行控制的问题，它会阻止其它线程获取当前对象的监控锁，这样就使得当前对象中被<code>synchronized</code>关键字保护的代码块无法被其它线程访问，也就无法并发执行。更重要的是，<code>synchronized</code>还会创建一个<strong>内存屏障</strong>，内存屏障指令保证了所有CPU操作结果都会直接刷到主存中，从而保证了操作的内存可见性，同时也使得先获得这个锁的线程的所有操作，都<strong>happens-before</strong>于随后获得这个锁的线程的操作。</p>
-</blockquote>
-<blockquote>
-<p><strong>volatile</strong>关键字：解决的是内存可见性的问题，会使得所有对<code>volatile</code>变量的读写都会直接刷到主存，即保证了变量的可见性。这样就能满足一些对变量可见性有要求而对读取顺序没有要求的需求。</p>
-</blockquote>
-<p><strong>注意：</strong>使用<code>volatile</code>关键字仅能实现对原始变量(如boolen、 short 、int 、long等)操作的原子性，但需要特别注意， <code>volatile</code><strong>不能保证复合操作的原子性</strong>，即使只是<code>i++</code>，实际上也是由多个原子操作组成：<code>read i; inc; write i</code>，假如多个线程同时执行<code>i++</code>，<code>volatile</code>只能保证他们操作的<strong><code>i</code>是同一块内存</strong>，但依然可能出现写入脏数据的情况。</p>
-<p>在Java 5提供了原子数据类型<code>atomic wrapper classes</code>，对它们的<code>increase</code>之类的操作都是原子操作，不需要使用<code>sychronized</code>关键字。</p>
-<p>对于<code>volatile</code>关键字，当且仅当满足以下所有条件时可使用：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>对变量的写入操作不依赖变量的当前值，或者你能确保只有单个线程更新变量的值。</span><br><span class="line"><span class="bullet">2. </span>该变量没有包含在具有其他变量的不变式中。</span><br></pre></td></tr></table></figure>
-<h2 id="0x02、volatile和synchronized的区别"><a href="#0x02、volatile和synchronized的区别" class="headerlink" title="0x02、volatile和synchronized的区别"></a>0x02、volatile和synchronized的区别</h2><blockquote>
-<ol>
-<li>volatile本质是在告诉jvm当前变量在寄存器（工作内存）中的值是不确定的，需要从主存中读取； synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞住。</li>
-<li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别的</li>
-<li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
-<li>volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。</li>
-<li>volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化</li>
-</ol>
-</blockquote>
-<p>如果想更好地理解这两个关键字的作用，强烈建议看一下这篇文章：<a href="http://blog.csdn.net/suifeng3051/article/details/52611310" target="_blank" rel="noopener">Java内存模型</a></p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃椰果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/alipay.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/wechatpay.jpg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">多线程并发</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">并发</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">AtomicInteger</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/04/05/volatile-synchronized/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/04/05/Java中数据存储/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Java中的数据存储
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/04/05/理解Java内存模型/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">深入理解Java内存模型JMM</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -381,9 +234,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
