@@ -44,7 +44,7 @@ public class AtomicIntegerTest {
 
 这里运行了20个线程，每个线程对count变量进行1000此自增操作，如果上面这段代码能够正常并发的话，最后的结果应该是20000才对，但实际结果却发现每次运行的结果都不相同，都是一个小于20000的数字。这是为什么呢？
 
-0x02、使用volatile修饰count变量？
+# 0x02、使用volatile修饰count变量？
 
 ```
 public class AtomicIntegerTest {
@@ -176,6 +176,6 @@ incrementAndGet()方法在一个无限循环体内，不断尝试将一个比当
 
 可以看到，compareAndSet()调用的就是Unsafe.compareAndSwapInt()方法，即Unsafe类的CAS操作。
 
-0X05、参考链接
+# 0X05、参考链接
 
 [原子操作类AtomicInteger详解](<https://blog.csdn.net/fanrenxiang/article/details/80623884>)
