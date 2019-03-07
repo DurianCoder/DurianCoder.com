@@ -1,4 +1,8 @@
 # DurianCoder 学习笔记
+[![stars](https://img.shields.io/github/stars/doocs/jvm.svg)](https://github.com/doocs/jvm/stargazers)
+[![forks](https://img.shields.io/github/forks/doocs/jvm.svg)](https://github.com/doocs/jvm/network/members)
+[![issues](https://img.shields.io/github/issues/doocs/jvm.svg)](https://github.com/doocs/jvm/issues)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
 # 0x01、并发
 - [ConcurrentHashMap源码分析](/source/_posts/ConcurrentHashMap源码分析.md)
