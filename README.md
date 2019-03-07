@@ -1,4 +1,4 @@
-# DurianCoder 学习笔记
+# [DurianCoder个人博客](https://duriancoder.github.io/)
 [![stars](https://img.shields.io/github/stars/doocs/jvm.svg)](https://github.com/doocs/jvm/stargazers)
 [![forks](https://img.shields.io/github/forks/doocs/jvm.svg)](https://github.com/doocs/jvm/network/members)
 [![issues](https://img.shields.io/github/issues/doocs/jvm.svg)](https://github.com/doocs/jvm/issues)
